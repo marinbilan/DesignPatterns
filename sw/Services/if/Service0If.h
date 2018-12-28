@@ -36,41 +36,17 @@ public:
     virtual std::string getObjectName()  = 0;
     //
 
-    virtual std::vector<std::string> sampleInsertElement(std::string inputString, int position)
-    {
-        std::cout << "[Service0If][sampleInsertElement] warning ... Not implemented function ..." << std::endl;
-    }    
-    
-    virtual void findFilesInHomeDrive(ScanIF& scanObject) // Mock Test
-    {
-        std::cout << "[Service0If][findFilesInHomeDrive] warning ... Not implemented function ..." << std::endl;
-    } 
+    virtual std::vector<std::string> sampleInsertElement(std::string inputString, int position) = 0;
 
-    virtual std::vector<std::string> getVectorOfDummyStrings()
-    {
-        std::cout << "[Service0If][getVectorOfDummyStrings] warning ... Not implemented function ..." << std::endl;
-    } 
+    virtual void findFilesInHomeDrive(ScanIF& scanObject) = 0;
 
-    virtual std::string getDummyString()
-    {
-        std::cout << "[Service0If][getDummyString] warning ... Not implemented function ..." << std::endl;
-        std::string err("Error");
-        return err;
-    } 
+    virtual std::vector<std::string> getVectorOfDummyStrings() = 0;
+
+    virtual std::string getDummyString() = 0;
        
-    virtual std::string findFileStat()
-    {
-        std::cout << "[Service0If][findFileStat] warning ... Not implemented function ..." << std::endl;
-        std::string err("Error");
-        return err;
-    } 
+    virtual std::string findFileStat() = 0;
 
-    virtual std::string findFileStatTest()
-    {
-        std::cout << "[Service0If][findFileStatTest] warning ... Not implemented function ..." << std::endl;
-        std::string err("Error");
-        return err;
-    } 
+    virtual std::string findFileStatTest() = 0;
 
     // Template functions
     template<typename T1, typename T2>

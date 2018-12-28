@@ -28,52 +28,31 @@ std::string StartUpNameSpace::StartUp::getName()
 void StartUpNameSpace::StartUp::init()
 {
     std::cout << "[StartUp][init]" << std::endl;
-    
+    //
     // Services
-    // 1] Register service
-    // 2] Create service instances (invoke constructor via second param of map (template function ptr))
-    // 3] Register service in container
-    // preinit service
-    // postInit service
-    
-    // Drivers
-    // 1] Drivers are already registered in .cpp files
-    // 2] Create driver instance
-    
-    //  REGISTER_CLASS(Constructor name)  - hardcoded constructor with std::string param
+    //
+    // 
+    // 1] Register service 
+    // REGISTER_CLASS(Constructor name)  - hardcoded constructor with std::string param (get from db)
     // All classes have the constructor with one param - std::string
-    REGISTER_CLASS(Test); 
-    REGISTER_CLASS(ServiceNameSpace::Service0); 
-
-
-    // CREATE OBJECTs using already registered class
-    // 1st param - objectId (/type) (constructor name), 2nd param - objectName (constructor param) (unique for each object)
-    std::string serviceType0("Test");
-    Test* test0 = (Test*)DesignPatternsNamespace::ServiceFactory::getInstance().construct(serviceType0, "1234");
-    Test* test1 = (Test*)DesignPatternsNamespace::ServiceFactory::getInstance().construct(serviceType0, "Object 4321");
-
-    std::string serviceType1("ServiceNameSpace::Service0");  // [FIND] /type in map and [CONSTRUCT] object with std::string param (call function/constructor)
-    ServiceNameSpace::ServiceBaseIf* service00 = (ServiceNameSpace::ServiceBaseIf*)DesignPatternsNamespace::ServiceFactory::getInstance().construct(serviceType1, "1234");
-    ServiceNameSpace::ServiceBaseIf* service01 = (ServiceNameSpace::ServiceBaseIf*)DesignPatternsNamespace::ServiceFactory::getInstance().construct(serviceType1, "4321");
-
-
-    // REGISTER SERVICEs in container
-    ContainerNameSpace::Container::getInstance().registerService(serviceType1, service00);
-    ContainerNameSpace::Container::getInstance().registerService(serviceType1, service01);
+    registerAllServices();
     
-
-
-    // Other stuff
-    // ContainerNameSpace::Container::getInstance().showAllServicesInContainer();
-
+    // 2] Create all service instances (invoke constructor via second param of map (template function ptr))
+    createAllServiceInstances();
+    
+    //
+    // Services Test
+    //
     ServiceNameSpace::ServiceBaseIf* temp = ContainerNameSpace::Container::getInstance().getServiceFromContainer("1234");
-    ServiceNameSpace::Service0If* service0If = dynamic_cast<ServiceNameSpace::Service0If*>(temp);
+    ServiceNameSpace::Service0If* service0If = dynamic_cast<ServiceNameSpace::Service0If*>(temp);   
     
     std::cout<< " <---- SERVICEs ----> " << std::endl;
     
-    std::cout<< temp->getObjectName() << std::endl;
-    
+    std::cout<< temp->getObjectName() << std::endl;   
+    // preinit service
     service0If->preInit();
+
+    // postInit service
     service0If->postInit();
     
     std::string str("dummy");
@@ -84,16 +63,21 @@ void StartUpNameSpace::StartUp::init()
     service0If->getVectorOfDummyStrings();
     std::string str0 = service0If->getDummyString();
     str0 = service0If->findFileStat();
-    str0 = service0If->findFileStatTest();
+    str0 = service0If->findFileStatTest();    
     
-    std::cout<< " <----          ----> " << std::endl;
+    // Other stuff
+    // ContainerNameSpace::Container::getInstance().showAllServicesInContainer();
+    std::cout<< " <------------------------> " << std::endl;    
     
+    //
+    //
+    // Drivers
+    //
+    //
     
-    
-    
-    // Driver Factory
+    // 1] Drivers are already registered in .cpp files
+    // 2] Create driver instance
     std::string Driver0Type = "DriverNameSpace::Driver0";
-    // Driver first need to be regisetred
     DesignPatternsNamespace::DriverFactory::create().createInstance(Driver0Type);
     
     auto driver = DesignPatternsNamespace::DriverFactory::create().getInstance(Driver0Type);
@@ -106,11 +90,40 @@ void StartUpNameSpace::StartUp::init()
 	{
 		std::cout << "ERROR" << std::endl;
 	} 
-    
-    std::cout<< " <----     Service1     ----> " << std::endl;
 
-    ServiceNameSpace::Service1If* srv = new ServiceNameSpace::Service1("Service1_Name");
-    srv->getList();
+}
 
+
+void StartUpNameSpace::StartUp::registerAllServices()
+{
+    std::cout << "[StartUp][registerServices]" << std::endl;
     
+    // Can create template prototype for any class (nosntructor) in the same map!
+    REGISTER_CLASS(ServiceNameSpace::Service0); 
+}
+
+
+void StartUpNameSpace::StartUp::createAllServiceInstances()
+{
+    std::cout << "[StartUp][createAllServiceInstances]" << std::endl;
+
+    // CREATE OBJECTs using already registered class
+    // 1st param - objectId (/type) (constructor name), 2nd param - objectName (constructor param) (unique for each object)
+    std::string serviceType1("ServiceNameSpace::Service0");  // [FIND] /type in map and [CONSTRUCT] object with std::string param (call function/constructor)
+    ServiceNameSpace::ServiceBaseIf* service00 = (ServiceNameSpace::ServiceBaseIf*)DesignPatternsNamespace::ServiceFactory::getInstance().construct(serviceType1, "1234");
+    ServiceNameSpace::ServiceBaseIf* service01 = (ServiceNameSpace::ServiceBaseIf*)DesignPatternsNamespace::ServiceFactory::getInstance().construct(serviceType1, "4321");
+
+    // REGISTER SERVICEs in container
+    // 3] Register service in container
+    registerServiceInContainer(serviceType1, service00);
+    registerServiceInContainer(serviceType1, service01);
+}
+
+
+void StartUpNameSpace::StartUp::registerServiceInContainer(const std::string& serviceType, ServiceNameSpace::ServiceBaseIf* serviceBaseIf)
+
+{
+    std::cout << "[StartUp][registerServiceInContainer]" << std::endl;
+
+    ContainerNameSpace::Container::getInstance().registerService(serviceType, serviceBaseIf);
 }

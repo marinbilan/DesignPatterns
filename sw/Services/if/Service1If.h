@@ -33,37 +33,14 @@ public:
     virtual std::string getObjectName()  = 0;
     //
     
-    virtual std::vector<std::string> getList()
-    {
-        std::cout << "[Service1If][getList] warning ... Not implemented function ..." << std::endl;
-        
-        std::string str0("Error");
-        std::vector<std::string> vec;
-        vec.push_back(str0);
-        
-        return vec;
-    }  
+    virtual std::vector<std::string> getList() = 0;
     
-    virtual std::vector<std::string>& getListRef()
-    {
-        std::cout << "[Service1If][getListRef] warning ... Not implemented function ..." << std::endl;
-        
-        std::string str0("Error");
-        std::vector<std::string> vec;
-        vec.push_back(str0);
-        
-        return vec;
-    }  
+    virtual std::vector<std::string>& getListRef() = 0;
     
-    virtual void getFileStatistics(std::vector<std::string> vec, FileStat& stat)
-    {
-        std::cout << "[Service1If][getFileStatistics] warning ... Not implemented function ..." << std::endl;
-    }  
+    virtual void getFileStatistics(std::vector<std::string> vec, FileStat& stat) = 0;
     
-    virtual void getFileStatistics2(std::vector<std::string>& filePath, FileStat* fileStat)
-    {
-        std::cout << "[Service1If][getFileStatistics2] warning ... Not implemented function ..." << std::endl;
-    } 
+    virtual void getFileStatistics2(std::vector<std::string>& filePath, FileStat* fileStat) = 0;
+    
 };
 
 } // End of namespace

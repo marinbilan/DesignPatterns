@@ -2,6 +2,9 @@
 
 #include "StartUp.h"
 
+// GIT
+// git remote add origin https://github.com/marinbilan/DesignPatterns.git
+// git push -u origin master
 
 int main(int argc, char *argv[])
 {
