@@ -1,6 +1,7 @@
 #pragma once
 #include "ServiceBaseIf.h"
 #include "Service1If.h"
+#include "Service1.h"
 
 
 // For unitTest exercise
@@ -35,6 +36,8 @@ public:
     
     virtual std::string getObjectName()  = 0;
     //
+    
+    virtual void setService1If(Service1If* service1IfPrt) = 0;
 
     virtual std::vector<std::string> sampleInsertElement(std::string inputString, int position) = 0;
 
@@ -47,7 +50,7 @@ public:
     virtual std::string findFileStat() = 0;
 
     virtual std::string findFileStatTest() = 0;
-
+    
     // Template functions
     template<typename T1, typename T2>
     void FindDuplicates(std::vector<T1> vectorParam, T2& result)

@@ -25,6 +25,8 @@ public:
     
     void registerServiceInContainer(const std::string& serviceType, ServiceNameSpace::ServiceBaseIf* serviceBaseIf);
 
+    void sandBox();
+
 private:
 static const std::string objectID;
 };

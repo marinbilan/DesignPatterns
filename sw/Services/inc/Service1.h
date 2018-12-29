@@ -1,6 +1,8 @@
 #pragma once
 #include "Service1If.h"
 
+#include <gmock/gmock.h>
+#include "gtest/gtest.h"
 
 namespace ServiceNameSpace
 {
@@ -36,3 +38,20 @@ std::string m_name;
 };
 
 } // End of namespace
+
+
+
+
+class Service1Mock : public ServiceNameSpace::Service1If
+{
+public:
+    MOCK_METHOD0(preInit, void());
+    MOCK_METHOD0(postInit, void());
+    MOCK_METHOD0(getObjectId, std::string());
+    MOCK_METHOD0(getObjectName, std::string());
+
+    MOCK_METHOD0(getList, std::vector<std::string>());
+    MOCK_METHOD0(getListRef, std::vector<std::string>&());
+    MOCK_METHOD2(getFileStatistics, void(std::vector<std::string>, FileStat&));
+    MOCK_METHOD2(getFileStatistics2, void(std::vector<std::string>&, FileStat*));
+};

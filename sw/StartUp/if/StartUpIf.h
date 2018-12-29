@@ -21,6 +21,7 @@ public:
     
     virtual void registerServiceInContainer(const std::string& serviceType, ServiceNameSpace::ServiceBaseIf* serviceBaseIf) = 0;
 
+    virtual void sandBox() = 0;
 };
 
 }

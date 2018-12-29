@@ -8,7 +8,6 @@ const std::string ServiceNameSpace::Service0::objectID= "ServiceNameSpace::Servi
 ServiceNameSpace::Service0::Service0(const std::string& name) : m_name(name)
 {
     std::cout << "[Service0][Service0(const std::string& name)] Constructor called" << std::endl;
-    
 } 
 
 
@@ -42,6 +41,13 @@ std::string ServiceNameSpace::Service0::getObjectName()
 {
     std::cout << "[Service0][getObjectName] OK" << std::endl;
     return m_name;
+}
+
+
+void ServiceNameSpace::Service0::setService1If(Service1If* service1IfPrt)
+{
+    std::cout << "[Service0][setService1If] OK" << std::endl;
+    m_ScanRef = service1IfPrt;
 }
 
 
@@ -148,10 +154,9 @@ std::string ServiceNameSpace::Service0::findFileStatTest()
     aSample.fileSize = 0;
     
     // sampleVector is hidden - How to get control over that in UT
-    std::vector<std::string> sampleVector = m_ScanRef->getList();
-    // std::vector<std::string> sampleVector = m_ScanRef->getListRef();
-    // sampleVector.push_back("adding1");    
-
+    // std::vector<std::string> sampleVector = m_ScanRef->getList();
+    std::vector<std::string> sampleVector = m_ScanRef->getListRef();
+    
     //m_ScanRef->getFileStatistics(sampleVector, aSample);
     m_ScanRef->getFileStatistics2(sampleVector, &aSample);
                 

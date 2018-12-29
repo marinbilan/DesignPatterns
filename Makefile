@@ -51,6 +51,7 @@ all:
 
 # test sources
 test_sources = sw/Services/src/Service0.cpp \
+               sw/Services/src/Service1.cpp \
                sw/Services/unitTest/testService0.cpp \
 
 test:

@@ -40,56 +40,7 @@ void StartUpNameSpace::StartUp::init()
     // 2] Create all service instances (invoke constructor via second param of map (template function ptr))
     createAllServiceInstances();
     
-    //
-    // Services Test
-    //
-    ServiceNameSpace::ServiceBaseIf* temp = ContainerNameSpace::Container::getInstance().getServiceFromContainer("1234");
-    ServiceNameSpace::Service0If* service0If = dynamic_cast<ServiceNameSpace::Service0If*>(temp);   
-    
-    std::cout<< " <---- SERVICEs ----> " << std::endl;
-    
-    std::cout<< temp->getObjectName() << std::endl;   
-    // preinit service
-    service0If->preInit();
-
-    // postInit service
-    service0If->postInit();
-    
-    std::string str("dummy");
-    service0If->sampleInsertElement(str, 2);
-    
-    ScanIF sIf;
-    service0If->findFilesInHomeDrive(sIf);
-    service0If->getVectorOfDummyStrings();
-    std::string str0 = service0If->getDummyString();
-    str0 = service0If->findFileStat();
-    str0 = service0If->findFileStatTest();    
-    
-    // Other stuff
-    // ContainerNameSpace::Container::getInstance().showAllServicesInContainer();
-    std::cout<< " <------------------------> " << std::endl;    
-    
-    //
-    //
-    // Drivers
-    //
-    //
-    
-    // 1] Drivers are already registered in .cpp files
-    // 2] Create driver instance
-    std::string Driver0Type = "DriverNameSpace::Driver0";
-    DesignPatternsNamespace::DriverFactory::create().createInstance(Driver0Type);
-    
-    auto driver = DesignPatternsNamespace::DriverFactory::create().getInstance(Driver0Type);
-    
- 	if(driver)
-	{
-		driver->init();
-	}
-	else
-	{
-		std::cout << "ERROR" << std::endl;
-	} 
+    sandBox();
 
 }
 
@@ -126,4 +77,63 @@ void StartUpNameSpace::StartUp::registerServiceInContainer(const std::string& se
     std::cout << "[StartUp][registerServiceInContainer]" << std::endl;
 
     ContainerNameSpace::Container::getInstance().registerService(serviceType, serviceBaseIf);
+}
+
+
+void StartUpNameSpace::StartUp::sandBox()
+
+{
+    std::cout << " <---- [StartUp][sandBox] ---->" << std::endl;
+
+    //
+    // Services Test
+    //
+    ServiceNameSpace::ServiceBaseIf* temp = ContainerNameSpace::Container::getInstance().getServiceFromContainer("1234");
+    ServiceNameSpace::Service0If* service0If = dynamic_cast<ServiceNameSpace::Service0If*>(temp);   
+    
+    std::cout<< " <---- SERVICEs ----> " << std::endl;
+    
+    std::cout<< temp->getObjectName() << std::endl;   
+    // preinit service
+    service0If->preInit();
+
+    // postInit service
+    service0If->postInit();
+    
+    std::string str("dummy");
+    service0If->sampleInsertElement(str, 2);
+    
+    ScanIF sIf;
+    service0If->findFilesInHomeDrive(sIf);
+    service0If->getVectorOfDummyStrings();
+    std::string str0 = service0If->getDummyString();
+    // str0 = service0If->findFileStat();
+    // str0 = service0If->findFileStatTest();    
+    
+    // Other stuff
+    // ContainerNameSpace::Container::getInstance().showAllServicesInContainer();
+
+    
+    //
+    //
+    // Drivers
+    //
+    //
+    
+    // 1] Drivers are already registered in .cpp files
+    // 2] Create driver instance
+    std::string Driver0Type = "DriverNameSpace::Driver0";
+    DesignPatternsNamespace::DriverFactory::create().createInstance(Driver0Type);
+    
+    auto driver = DesignPatternsNamespace::DriverFactory::create().getInstance(Driver0Type);
+    
+ 	if(driver)
+	{
+		driver->init();
+	}
+	else
+	{
+		std::cout << "ERROR" << std::endl;
+	} 
+    std::cout<< " <------------------------> " << std::endl;        
 }

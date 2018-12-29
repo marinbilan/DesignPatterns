@@ -44,17 +44,3 @@ public:
 };
 
 } // End of namespace
-
-
-
-// TODO
-// ------------------------------------------------ Service 1 MOCK ------------------------------------------------
-/*class CScanMock : public ScanRefIF
-{
-public:
-    MOCK_METHOD0(getList, std::vector<std::string>());
-    MOCK_METHOD0(getListRef, std::vector<std::string>&());
-    MOCK_METHOD2(getFileStatistics, void(std::vector<std::string>, FileStat&));
-    MOCK_METHOD2(getFileStatistics2, void(std::vector<std::string>&, FileStat*));
-};*/
-// ------------------------------------------------ ------------------------------------------------

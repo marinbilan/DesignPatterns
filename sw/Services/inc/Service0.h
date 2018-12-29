@@ -17,10 +17,12 @@ public:
     
     void postInit();
     
-    std::string getObjectId();
+    std::string getObjectId();  // Constructor
     
-    std::string getObjectName();
+    std::string getObjectName();    // Token
     //
+    
+    void setService1If(Service1If* service1IfPrt);
 
     std::vector<std::string> sampleInsertElement(std::string inputString, int position);
     
@@ -35,9 +37,10 @@ public:
     std::string findFileStatTest();
 
 private:
-static const std::string objectID;
 std::string m_name;
+std::vector<std::string> m_vector0 = {};
 
+static const std::string objectID;
 Service1If* m_ScanRef;  // unitTest 
 };
 
