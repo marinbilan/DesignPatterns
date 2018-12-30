@@ -31,7 +31,14 @@ public:
     void getFileStatistics(std::vector<std::string> vec, FileStat& stat);
     
     void getFileStatistics2(std::vector<std::string>& filePath, FileStat* fileStat);
+ 
+    //
+    // unit Test
+    //
+    int returnInt();
     
+    int returnInt0(int i, std::string& str);
+  
 private:
 static const std::string objectID;
 std::string m_name;
@@ -54,4 +61,6 @@ public:
     MOCK_METHOD0(getListRef, std::vector<std::string>&());
     MOCK_METHOD2(getFileStatistics, void(std::vector<std::string>, FileStat&));
     MOCK_METHOD2(getFileStatistics2, void(std::vector<std::string>&, FileStat*));
+    MOCK_METHOD0(returnInt, int());
+    MOCK_METHOD2(returnInt0, int(int, std::string&));
 };

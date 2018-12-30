@@ -72,7 +72,23 @@ void ServiceNameSpace::Service1::getFileStatistics(std::vector<std::string> vec,
 }  
 
 
-void ServiceNameSpace::Service1::getFileStatistics2(std::vector<std::string>& filePath, FileStat* fileStat)
+void ServiceNameSpace::Service1::getFileStatistics2(std::vector<std::string>& filePath,     FileStat* fileStat)
 {
     std::cout << "[Service1][getFileStatistics2] OK" << std::endl;
+} 
+
+//
+// unit Test
+//
+int ServiceNameSpace::Service1::returnInt()
+{
+    std::cout << "[Service1][returnInt] OK" << std::endl;
+    return 0;
+} 
+
+
+int ServiceNameSpace::Service1::returnInt0(int i, std::string& str)
+{
+    std::cout << "[Service1][returnInt0] OK" << std::endl;
+    return 0;
 } 

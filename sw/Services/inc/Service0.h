@@ -35,6 +35,11 @@ public:
     std::string findFileStat();
     
     std::string findFileStatTest();
+    
+    //
+    // unit Test
+    //
+    int unitTest0(std::string& str);
 
 private:
 std::string m_name;

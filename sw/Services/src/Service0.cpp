@@ -183,3 +183,36 @@ std::string ServiceNameSpace::Service0::findFileStatTest()
     }
     return "OK";
 } 
+
+//
+// unit Test
+//
+int ServiceNameSpace::Service0::unitTest0(std::string& str)
+{ 
+    // Test 1
+    std::string fString("fString");
+    str = fString;
+    std::cout << " > str: " << str << std::endl;
+    
+    int testInt = m_ScanRef->returnInt();
+    std::cout << " > testInt: " << testInt << std::endl;
+    
+    
+    // Test 2
+    int i = 7;
+    std::string str0("expectedString");
+    int testInt0 = m_ScanRef->returnInt0(i, str0);
+    std::cout << " > testInt0: " << testInt0 << std::endl;
+    std::cout << " > str0: " << str0 << std::endl;
+    
+    // 
+    
+    if(testInt == 17)
+    {
+        return 0;
+    } 
+    else 
+    {
+        return 1;
+    }
+} 

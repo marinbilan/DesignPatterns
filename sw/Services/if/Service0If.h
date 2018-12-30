@@ -65,6 +65,11 @@ public:
             }
         }
     }
+    
+    //
+    // unit Test
+    //
+    virtual int unitTest0(std::string& str) = 0;
 
 };
 

@@ -40,7 +40,13 @@ public:
     virtual void getFileStatistics(std::vector<std::string> vec, FileStat& stat) = 0;
     
     virtual void getFileStatistics2(std::vector<std::string>& filePath, FileStat* fileStat) = 0;
+
+    //
+    // unit Test
+    //
+    virtual int returnInt() = 0;
     
+    virtual int returnInt0(int i, std::string& str) = 0;
 };
 
 } // End of namespace
