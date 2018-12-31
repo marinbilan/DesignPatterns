@@ -72,7 +72,7 @@ void ServiceNameSpace::Service1::getFileStatistics(std::vector<std::string> vec,
 }  
 
 
-void ServiceNameSpace::Service1::getFileStatistics2(std::vector<std::string>& filePath,     FileStat* fileStat)
+void ServiceNameSpace::Service1::getFileStatistics2(std::vector<std::string>& filePath, FileStat* fileStat)
 {
     std::cout << "[Service1][getFileStatistics2] OK" << std::endl;
 } 

@@ -21,7 +21,11 @@ common_sources = main.cpp \
                  sw/DesignPatterns/src/ServiceFactory.cpp \
                  sw/Services/src/Service0.cpp \
                  sw/Services/src/Service1.cpp \
+                 sw/Services/src/ServiceCar.cpp \
+                 sw/Services/src/ServiceCarParts.cpp \
                  sw/DesignPatterns/src/DriverFactory.cpp \
+                 sw/DesignPatterns/src/BuilderPattern.cpp \
+                 sw/DesignPatterns/src/AbstractFactory.cpp \
                  sw/Drivers/src/Driver0.cpp \
 
 all:

@@ -1,9 +1,16 @@
 #include "StartUp.h"
 
+// Services
 #include "Service0.h"
 #include "Service1.h"
-
+#include "ServiceCarIf.h"
+// Drivers
 #include "Driver0.h"
+// DesignPatterns
+#include "BuilderPatternIf.h"
+#include "BuilderPattern.h"
+#include "AbstractFactoryIf.h"
+#include "AbstractFactory.h"
 
 
 const std::string StartUpNameSpace::StartUp::objectID= "StartUp"; 
@@ -40,6 +47,10 @@ void StartUpNameSpace::StartUp::init()
     // 2] Create all service instances (invoke constructor via second param of map (template function ptr))
     createAllServiceInstances();
     
+    // 3] TODO preInit
+    
+    // 4] TODO postInit
+    
     sandBox();
 
 }
@@ -50,7 +61,9 @@ void StartUpNameSpace::StartUp::registerAllServices()
     std::cout << "[StartUp][registerServices]" << std::endl;
     
     // Can create template prototype for any class (nosntructor) in the same map!
+    // NameSpace::ConstructorName
     REGISTER_CLASS(ServiceNameSpace::Service0); 
+    REGISTER_CLASS(ServiceNameSpace::Service1); 
 }
 
 
@@ -61,13 +74,15 @@ void StartUpNameSpace::StartUp::createAllServiceInstances()
     // CREATE OBJECTs using already registered class
     // 1st param - objectId (/type) (constructor name), 2nd param - objectName (constructor param) (unique for each object)
     std::string serviceType1("ServiceNameSpace::Service0");  // [FIND] /type in map and [CONSTRUCT] object with std::string param (call function/constructor)
+    // Create two instance of 1 registered class (ServiceNameSpace::Service0)
     ServiceNameSpace::ServiceBaseIf* service00 = (ServiceNameSpace::ServiceBaseIf*)DesignPatternsNamespace::ServiceFactory::getInstance().construct(serviceType1, "1234");
     ServiceNameSpace::ServiceBaseIf* service01 = (ServiceNameSpace::ServiceBaseIf*)DesignPatternsNamespace::ServiceFactory::getInstance().construct(serviceType1, "4321");
-
+    
     // REGISTER SERVICEs in container
     // 3] Register service in container
     registerServiceInContainer(serviceType1, service00);
     registerServiceInContainer(serviceType1, service01);
+
 }
 
 
@@ -89,8 +104,8 @@ void StartUpNameSpace::StartUp::sandBox()
     // Services Test
     //
     ServiceNameSpace::ServiceBaseIf* temp = ContainerNameSpace::Container::getInstance().getServiceFromContainer("1234");
-    ServiceNameSpace::Service0If* service0If = dynamic_cast<ServiceNameSpace::Service0If*>(temp);   
-    
+    ServiceNameSpace::Service0If* service0If = dynamic_cast<ServiceNameSpace::Service0If*>(temp); 
+
     std::cout<< " <---- SERVICEs ----> " << std::endl;
     
     std::cout<< temp->getObjectName() << std::endl;   
@@ -119,7 +134,7 @@ void StartUpNameSpace::StartUp::sandBox()
     // Drivers
     //
     //
-    
+
     // 1] Drivers are already registered in .cpp files
     // 2] Create driver instance
     std::string Driver0Type = "DriverNameSpace::Driver0";
@@ -135,5 +150,46 @@ void StartUpNameSpace::StartUp::sandBox()
 	{
 		std::cout << "ERROR" << std::endl;
 	} 
-    std::cout<< " <------------------------> " << std::endl;        
+    std::cout<< " <------------------------> " << std::endl;
+
+
+
+
+    std::cout<< " <---- BUILDER PATTERN START ----> " << std::endl;
+    // Product is BuilderPattern built by Builed object inside class BuilderPattern
+    // Ex 1
+    std::cout<< " <---- Ex 1 ----> " << std::endl;
+    DesignPatternsNamespace::BuilderPattern p1 = DesignPatternsNamespace::BuilderPattern::Builder().setI(2).setF(0.5f).build(); 
+    p1.print();
+    
+    // Ex 2
+    std::cout<< " <---- Ex 2 ----> " << std::endl;
+    // Advanced usage 
+    // Default values 
+    DesignPatternsNamespace::BuilderPattern::Builder b;        // Uciti da se builder kreira bez zagrada! ...::Builder()
+    
+    b.setProductA(); 
+    DesignPatternsNamespace::BuilderPattern p2 = b.build(); // get Product P object 
+
+    b.setI(1113);                   // customize Product P 
+    DesignPatternsNamespace::BuilderPattern p3 = b.build(); 
+
+    p2.print();                       // test p2 
+    p3.print();                       // test p3    
+    std::cout<< " <---- BUILDER PATTERN END----> " << std::endl;
+    
+    
+    
+    
+    std::cout<< " <---- ABSTRACT FACTORY PATTERN START ----> " << std::endl;
+    DesignPatternsNamespace::AbstractFactoryIf* af0 = new DesignPatternsNamespace::AbstractFactorySaharaCar;
+    std::cout << af0->getName() << std::endl;
+    ServiceNameSpace::CarIf*  sahareCar0 = af0->getCar();
+    std::cout << " xxx sahareCar0: " << sahareCar0->getObjectName() << std::endl;
+    
+    DesignPatternsNamespace::AbstractFactoryIf* af1 = new DesignPatternsNamespace::AbstractFactorySibirCar;
+    std::cout << af1->getName() << std::endl;
+    ServiceNameSpace::CarIf*  sibirCar0 = af1->getCar();
+    std::cout << " xxx sibirCar0: " << sibirCar0->getObjectName() << std::endl;
+    std::cout<< " <---- ABSTRACT FACTORY PATTERN END ----> " << std::endl;
 }

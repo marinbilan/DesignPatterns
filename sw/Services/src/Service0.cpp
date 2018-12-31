@@ -192,18 +192,21 @@ int ServiceNameSpace::Service0::unitTest0(std::string& str)
     // Test 1
     std::string fString("fString");
     str = fString;
-    std::cout << " > str: " << str << std::endl;
-    
+    std::cout << "[Service0][unitTest0] > str: " << str << std::endl;
+    // MOCK (Service1)
     int testInt = m_ScanRef->returnInt();
-    std::cout << " > testInt: " << testInt << std::endl;
+    //
+    std::cout << "[Service0][unitTest0] > testInt: " << testInt << std::endl;
     
     
     // Test 2
     int i = 7;
     std::string str0("expectedString");
+    //
     int testInt0 = m_ScanRef->returnInt0(i, str0);
-    std::cout << " > testInt0: " << testInt0 << std::endl;
-    std::cout << " > str0: " << str0 << std::endl;
+    // MOCK (Service1)
+    std::cout << "[Service0][unitTest0] > testInt0: " << testInt0 << std::endl;
+    std::cout << "[Service0][unitTest0] > str0: " << str0 << std::endl;
     
     // 
     

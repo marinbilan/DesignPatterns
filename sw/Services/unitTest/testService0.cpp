@@ -180,41 +180,49 @@ TEST(TestName_0, test_unitTest0)
     // 1] Pogledamo imamo li  vanjske objekte (ako da, kreiramo mock)
     Service1Mock scanMock;
     
-    // 2] Kreiranje testnog objekta
-    ServiceNameSpace::Service0 finderObj("service0_Name");
+    // 2] Kreiramo testni objekt jer nije TEST_F
+    ServiceNameSpace::Service0 service0("service0_Name");
     
     // 3] Moramo biti sigurni da smo predali pointer/referencu mock objekta
     // incae segmentation fault (core dump)
     // Real data  (service0)
-    finderObj.setService1If(&scanMock);
+    service0.setService1If(&scanMock);
 
     // 4] Pogledamo  koje parametre prima / sto mock objekt vraca
-    // 5] Kreiramo EXPECT_CALL preko mock objekta i recemo sto da vrati mock
+    // 5] Kreiramo EXPECT_CALL preko mock objekta i recemo sto da vrati (mock)
     int testInt = 17;
     EXPECT_CALL( scanMock, returnInt()).WillOnce(::testing::Return(testInt));
     
     int testInt0 = 19;
     std::string str0("expectedString");
     std::string str1("expectedString22");
-    // Ocekujemo da ce se u testnoj funkciji returnInt0 poyvati s argumentima 7 i str0
-    // EXPECT_CALL( scanMock, returnInt0(7, str0)).WillOnce(::testing::Return(testInt0) );
+    // Ocekujemo da ce se u testnoj funkciji returnInt0 pozvati s argumentima 7 i str0 - Sto je i istina u unitTest0 funkciji
+    // 1st Argument  postavljamo u str1 (u testnoj funkciji str0 ce se promijeniti u "expectedString22")
     EXPECT_CALL( scanMock, returnInt0(7, str0)).WillOnce( DoAll( ::testing::SetArgReferee<1>(str1), ::testing::Return(testInt0)) );
+    
+    // EXPECT_CALL( scanMock, returnInt0(_, _)).WillOnce(::testing::Return(testInt0) );    // (_, _) - Nebitni argumenti
+    // U ovakvom pozivu ocekujemo dva poziva! (Za sumultani poziv koristiti DoAll)
     // EXPECT_CALL( scanMock, returnInt0(_, str0)).WillOnce(::testing::SetArgReferee<1>(str1)).WillOnce(::testing::Return(testInt0));
     
+    // Poziv donje funkcije (funcTobeCalled) jos testirati!
+    // EXPECT_CALL(scanMock, getFileStatistics2(_,_)).WillOnce(::testing::Invoke(funcTobeCalled));   
     
     // 5] Provjerimo da li imamo jos poziva (mock) Ako da - EXPECT_CALL
     // 6] Pozivamo funkciju
     std::string str("Some_string_0");
-    int returnInt = finderObj.unitTest0(str);
-    std::cout << " > str from test_unitTest0: " << str << std::endl;
+    int returnInt = service0.unitTest0(str);
+    std::cout << " >[TestName_0][test_unitTest0] > str from test_unitTest0: " << str << std::endl;
 
     EXPECT_EQ(returnInt, 0); 
     EXPECT_EQ(str, "fString"); 
 }
 
 
-
-
+static void funcTobeCalled(std::vector<std::string>& filePath, FileStat* fileStat)
+{
+    filePath.at(0) += "/home/";
+    fileStat->fileSize = 100;
+}
 
 
 
