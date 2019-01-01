@@ -1,16 +1,16 @@
 #pragma once
-#include "ServiceCarPartsIf.h"
+#include "ServiceCarIf.h"
 
 
 namespace ServiceNameSpace
 {
 
-class Engine : public ServiceNameSpace::CarPartsIf
+class CarSahara : public ServiceNameSpace::CarIf
 {
 public:
-    Engine(const std::string& name);
+    CarSahara(const std::string& name);
     
-    ~Engine();
+    ~CarSahara();
     
     // Mandatory
     void preInit();
@@ -22,17 +22,25 @@ public:
     std::string getObjectName();    // Token
     //
 
+    void setEngine(CarEngineIf* engine);
+    
+    void setWheel(CarWheelIf* wheel);
+    
 private:
 std::string m_name;
 static const std::string objectID;
+
+CarEngineIf* m_engine;
+CarWheelIf* m_wheel;
 };
 
-class Wheel : public ServiceNameSpace::CarPartsIf
+
+class CarSibir : public ServiceNameSpace::CarIf
 {
 public:
-    Wheel(const std::string& name);
+    CarSibir(const std::string& name);
     
-    ~Wheel();
+    ~CarSibir();
     
     // Mandatory
     void preInit();
@@ -44,9 +52,16 @@ public:
     std::string getObjectName();    // Token
     //
 
+    void setEngine(CarEngineIf* engine);
+    
+    void setWheel(CarWheelIf* wheel);
+    
 private:
 std::string m_name;
 static const std::string objectID;
+
+CarEngineIf* m_engine;
+CarWheelIf* m_wheel;
 };
 
 } // End of namespace

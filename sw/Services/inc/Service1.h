@@ -35,10 +35,14 @@ public:
     //
     // unit Test
     //
-    int returnInt();
-    
     int returnInt0(int i, std::string& str);
-  
+ 
+ 
+    // NEW Start
+    virtual int returnInt();
+    
+    // NEW End
+ 
 private:
 static const std::string objectID;
 std::string m_name;

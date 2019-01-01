@@ -21,8 +21,8 @@ common_sources = main.cpp \
                  sw/DesignPatterns/src/ServiceFactory.cpp \
                  sw/Services/src/Service0.cpp \
                  sw/Services/src/Service1.cpp \
-                 sw/Services/src/ServiceCar.cpp \
-                 sw/Services/src/ServiceCarParts.cpp \
+                 sw/DesignPatterns/PatternsServices/src/ServiceCar.cpp \
+                 sw/DesignPatterns/PatternsServices/src/ServiceCarParts.cpp \
                  sw/DesignPatterns/src/DriverFactory.cpp \
                  sw/DesignPatterns/src/BuilderPattern.cpp \
                  sw/DesignPatterns/src/AbstractFactory.cpp \
@@ -40,10 +40,12 @@ all:
 	-I sw/StartUp/inc \
 	-I sw/Container/if \
 	-I sw/Container/inc \
-	-I sw/DesignPatterns/if \
-	-I sw/DesignPatterns/inc \
 	-I sw/Services/if \
 	-I sw/Services/inc \
+	-I sw/DesignPatterns/if \
+	-I sw/DesignPatterns/inc \
+	-I sw/DesignPatterns/PatternsServices/if \
+	-I sw/DesignPatterns/PatternsServices/inc \
 	-I sw/Drivers/if \
 	-I sw/Drivers/inc \
 	-o  App01 \

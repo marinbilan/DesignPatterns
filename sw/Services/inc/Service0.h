@@ -41,6 +41,14 @@ public:
     //
     int unitTest0(std::string& str);
 
+    // NEW Start
+    virtual int returnInt(int intInput);    
+    
+    virtual void setRefInt(int& intRefInput) ;
+    
+    virtual bool mockInMethod0();
+    // NEW End
+    
 private:
 std::string m_name;
 std::vector<std::string> m_vector0 = {};

@@ -1,16 +1,17 @@
 #pragma once
 #include "ServiceBaseIf.h"
+#include "ServiceCarPartsIf.h"
 
 
 namespace ServiceNameSpace
 {
 
-class CarPartsIf  : public ServiceNameSpace::ServiceBaseIf
+class CarIf  : public ServiceNameSpace::ServiceBaseIf
 {
 public:
-    virtual ~CarPartsIf()
+    virtual ~CarIf()
     {
-        std::cout << "[CarPartsIf] Virtual CarPartsIf destructor called" << std::endl;
+        std::cout << "[CarIf] Virtual CarIf destructor called" << std::endl;
     }
     
     // Mandatory for each service
@@ -22,7 +23,10 @@ public:
     
     virtual std::string getObjectName()  = 0;
     //
+
+    virtual void setEngine(CarEngineIf* engine)  = 0;
     
+    virtual void setWheel(CarWheelIf* wheel)  = 0;
 };
 
 } // End of namespace

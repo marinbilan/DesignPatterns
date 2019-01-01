@@ -80,15 +80,18 @@ void ServiceNameSpace::Service1::getFileStatistics2(std::vector<std::string>& fi
 //
 // unit Test
 //
+int ServiceNameSpace::Service1::returnInt0(int i, std::string& str)
+{
+    std::cout << "[Service1][returnInt0] OK" << std::endl;
+    return 0;
+} 
+
+
+// NEW Start
 int ServiceNameSpace::Service1::returnInt()
 {
     std::cout << "[Service1][returnInt] OK" << std::endl;
     return 0;
 } 
 
-
-int ServiceNameSpace::Service1::returnInt0(int i, std::string& str)
-{
-    std::cout << "[Service1][returnInt0] OK" << std::endl;
-    return 0;
-} 
+// NEW End

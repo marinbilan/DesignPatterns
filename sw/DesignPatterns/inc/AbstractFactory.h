@@ -21,6 +21,7 @@ static const std::string objectID;
 
 };
 
+
 class AbstractFactorySibirCar : public DesignPatternsNamespace::AbstractFactoryIf
 {
 public:

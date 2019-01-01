@@ -225,4 +225,47 @@ static void funcTobeCalled(std::vector<std::string>& filePath, FileStat* fileSta
 }
 
 
+// NEW Start
+TEST_F(Service0Test, test_returnInt) 
+{ 
+    // Input variables
+    int trueInt = 1;
+    int falseInt = 0;
+    
+    bool returnValue;
+    
+    returnValue = service0->returnInt(falseInt);
+    EXPECT_EQ(returnValue, false); 
+    
+    returnValue = service0->returnInt(trueInt);
+    EXPECT_EQ(returnValue, true); 
+}
 
+
+TEST_F(Service0Test, test_setRefInt) 
+{ 
+    // Input variables
+    int  intRef = 0;
+    int  expectedIntValue = 17;
+    
+    service0->setRefInt(intRef);
+    EXPECT_EQ(intRef, expectedIntValue); 
+}
+
+
+TEST_F(Service0Test, mockInMethod0) 
+{ 
+    // Input variables
+    Service1Mock scanMock;
+    ServiceNameSpace::Service0 service0("service0_Name");
+    
+    service0.setService1If(&scanMock);
+    int testInt = 1;
+    EXPECT_CALL( scanMock, returnInt()).WillOnce(::testing::Return(testInt));
+
+    bool returnBool = service0.mockInMethod0();
+    EXPECT_EQ(returnBool, true); 
+}
+// NEW End
+    
+    

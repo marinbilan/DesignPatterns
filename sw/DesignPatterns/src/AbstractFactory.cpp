@@ -1,7 +1,11 @@
 #include "AbstractFactory.h"
+
 #include "ServiceCar.h"
+#include "ServiceCarParts.h"
 
-
+//
+// Sahara Car
+//
 const std::string DesignPatternsNamespace::AbstractFactorySaharaCar::objectID= "AbstractFactorySaharaCar"; 
 
 DesignPatternsNamespace::AbstractFactorySaharaCar::AbstractFactorySaharaCar()
@@ -23,11 +27,18 @@ std::string DesignPatternsNamespace::AbstractFactorySaharaCar::getName()
 
 
 ServiceNameSpace::CarIf* DesignPatternsNamespace::AbstractFactorySaharaCar::getCar()
-{
-    return new ServiceNameSpace::CarSahara("CarSahara");
+{    
+    // Create Car with specific parts
+    ServiceNameSpace::CarIf* carSahara = new ServiceNameSpace::CarSahara("CarSahara");
+    carSahara->setEngine(new ServiceNameSpace::EngineSahara("Sahara Engine"));
+    carSahara->setWheel(new ServiceNameSpace::WheelSahara("Sahara Wheel"));
+    
+    return carSahara;
 }
 
 
+//
+// Sibir Car
 //
 const std::string DesignPatternsNamespace::AbstractFactorySibirCar::objectID= "AbstractFactorySibirCar"; 
 
@@ -51,7 +62,11 @@ std::string DesignPatternsNamespace::AbstractFactorySibirCar::getName()
 
 ServiceNameSpace::CarIf* DesignPatternsNamespace::AbstractFactorySibirCar::getCar()
 {
-    return new ServiceNameSpace::CarSibir("CarSibir");
+    ServiceNameSpace::CarIf* CarSibir = new ServiceNameSpace::CarSibir("CarSibir");
+    CarSibir->setEngine(new ServiceNameSpace::EngineSibir("Sibir Engine"));
+    CarSibir->setWheel(new ServiceNameSpace::WheelSibir("Sibir Wheel"));
+    
+    return CarSibir;
 }
 
 

@@ -27,7 +27,7 @@ public:
         std::cout << "[Service0If] Virtual Service0If destructor called" << std::endl;
     }
     
-    // Mandatory for each service
+    // ServiceBaseIf - Mandatory for each service
     virtual void preInit() = 0;
     
     virtual void postInit() = 0;
@@ -65,12 +65,19 @@ public:
             }
         }
     }
-    
     //
-    // unit Test
+    // unitTest
     //
     virtual int unitTest0(std::string& str) = 0;
 
+
+    // NEW Start
+    virtual int returnInt(int intInput) = 0;
+
+    virtual void setRefInt(int& intRefInput) = 0;
+
+    virtual bool mockInMethod0() = 0;    // Mock
+    // NEW End
 };
 
 } // End of namespace

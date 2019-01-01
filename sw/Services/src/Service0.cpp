@@ -219,3 +219,40 @@ int ServiceNameSpace::Service0::unitTest0(std::string& str)
         return 1;
     }
 } 
+
+
+// NEW Start
+int ServiceNameSpace::Service0::returnInt(int intInput)
+{ 
+    int in = intInput;
+    std::cout << "[returnInt] in = " << in << std::endl;
+    
+    if(in == 0)
+    {
+        return false;
+    } else
+    {
+        return true;
+    }
+} 
+
+
+void ServiceNameSpace::Service0::setRefInt(int& intRefInput)
+{ 
+    intRefInput = 17;
+} 
+
+
+bool ServiceNameSpace::Service0::mockInMethod0()
+{ 
+    int testInt = m_ScanRef->returnInt();
+    
+    if(testInt == 0)
+    {
+        return false;
+    } else 
+    {
+        return true;
+    }
+} 
+// NEW End
