@@ -19,7 +19,7 @@ public:
     
     std::string getObjectId();  // Constructor
     
-    std::string getObjectName();    // Token
+    std::string getObjectName(); 
     //
 
 private:
@@ -42,7 +42,7 @@ public:
     
     std::string getObjectId();  // Constructor
     
-    std::string getObjectName();    // Token
+    std::string getObjectName(); 
     //
 
 private:
@@ -65,7 +65,7 @@ public:
     
     std::string getObjectId();  // Constructor
     
-    std::string getObjectName();    // Token
+    std::string getObjectName(); 
     //
 
 private:
@@ -88,7 +88,7 @@ public:
     
     std::string getObjectId();  // Constructor
     
-    std::string getObjectName();    // Token
+    std::string getObjectName(); 
     //
 
 private:

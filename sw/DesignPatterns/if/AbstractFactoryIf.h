@@ -1,6 +1,7 @@
 #pragma once
 #include "DesignPatternsBaseIf.h"
-#include "ServiceCarIf.h"
+
+#include "ServiceCarPartsIf.h"
 
 
 namespace DesignPatternsNamespace
@@ -12,9 +13,10 @@ public:
     virtual ~AbstractFactoryIf() {}
   
     virtual std::string getName() = 0;
-    
-    virtual ServiceNameSpace::CarIf* getCar() = 0;
 
+    virtual ServiceNameSpace::CarEngineIf* getEngine() = 0;
+    
+    virtual ServiceNameSpace::CarWheelIf* getWheel() = 0; 
 };
 
 } // End of namespace

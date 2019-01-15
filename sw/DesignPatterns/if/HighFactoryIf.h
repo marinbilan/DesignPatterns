@@ -5,10 +5,10 @@
 namespace DesignPatternsNamespace
 {
 
-class ServiceFactoryIf  : public DesignPatternsNamespace::DesignPatternsBaseIf
+class HighFactoryIf  : public DesignPatternsNamespace::DesignPatternsBaseIf
 {
 public:
-    virtual ~ServiceFactoryIf() {}
+    virtual ~HighFactoryIf() {}
   
     virtual std::string getName() = 0;
 

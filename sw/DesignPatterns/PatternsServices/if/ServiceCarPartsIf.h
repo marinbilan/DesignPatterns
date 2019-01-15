@@ -22,8 +22,8 @@ public:
     
     virtual std::string getObjectName()  = 0;
     //
-
 };
+
 
 class CarWheelIf  : public ServiceNameSpace::ServiceBaseIf
 {
@@ -42,7 +42,6 @@ public:
     
     virtual std::string getObjectName()  = 0;
     //
-
 }; 
 
 } // End of namespace

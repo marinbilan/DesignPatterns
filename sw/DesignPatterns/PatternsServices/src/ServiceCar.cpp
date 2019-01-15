@@ -1,8 +1,7 @@
 #include "ServiceCar.h"
 
-//
+
 // CarSahara
-//
 const std::string ServiceNameSpace::CarSahara::objectID= "ServiceNameSpace::CarSahara"; 
 
 
@@ -58,9 +57,7 @@ void ServiceNameSpace::CarSahara::setWheel(CarWheelIf* wheel)
 }
 
 
-//
 // CarSibir
-//
 const std::string ServiceNameSpace::CarSibir::objectID= "ServiceNameSpace::CarSibir"; 
 
 

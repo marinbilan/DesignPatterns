@@ -14,8 +14,6 @@ public:
 };
 
 
-
-
 namespace ServiceNameSpace
 {
 
@@ -37,16 +35,26 @@ public:
     virtual std::string getObjectName()  = 0;
     //
     
+    // Set
     virtual void setService1If(Service1If* service1IfPrt) = 0;
 
-    virtual std::vector<std::string> sampleInsertElement(std::string inputString, int position) = 0;
 
+    virtual int returnInt(int intInput) = 0;
+
+    virtual void setRefInt(int& intRefInput) = 0;
+
+    virtual bool mockInMethod0() = 0; 
+    
+    virtual int unitTest0(std::string& str) = 0;
+
+    virtual std::vector<std::string> sampleInsertElement(std::string inputString, int position) = 0;
+    
     virtual void findFilesInHomeDrive(ScanIF& scanObject) = 0;
 
-    virtual std::vector<std::string> getVectorOfDummyStrings() = 0;
-
     virtual std::string getDummyString() = 0;
-       
+    
+    virtual std::vector<std::string> getVectorOfDummyStrings() = 0;
+    
     virtual std::string findFileStat() = 0;
 
     virtual std::string findFileStatTest() = 0;
@@ -65,19 +73,7 @@ public:
             }
         }
     }
-    //
-    // unitTest
-    //
-    virtual int unitTest0(std::string& str) = 0;
 
-
-    // NEW Start
-    virtual int returnInt(int intInput) = 0;
-
-    virtual void setRefInt(int& intRefInput) = 0;
-
-    virtual bool mockInMethod0() = 0;    // Mock
-    // NEW End
 };
 
 } // End of namespace

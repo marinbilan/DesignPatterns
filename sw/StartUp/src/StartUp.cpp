@@ -4,6 +4,7 @@
 #include "Service0.h"
 #include "Service1.h"
 #include "ServiceCarIf.h"
+#include "ServiceCar.h"
 // Drivers
 #include "Driver0.h"
 // DesignPatterns
@@ -75,8 +76,8 @@ void StartUpNameSpace::StartUp::createAllServiceInstances()
     // 1st param - objectId (/type) (constructor name), 2nd param - objectName (constructor param) (unique for each object)
     std::string serviceType1("ServiceNameSpace::Service0");  // [FIND] /type in map and [CONSTRUCT] object with std::string param (call function/constructor)
     // Create two instance of 1 registered class (ServiceNameSpace::Service0)
-    ServiceNameSpace::ServiceBaseIf* service00 = (ServiceNameSpace::ServiceBaseIf*)DesignPatternsNamespace::ServiceFactory::getInstance().construct(serviceType1, "1234");
-    ServiceNameSpace::ServiceBaseIf* service01 = (ServiceNameSpace::ServiceBaseIf*)DesignPatternsNamespace::ServiceFactory::getInstance().construct(serviceType1, "4321");
+    ServiceNameSpace::ServiceBaseIf* service00 = (ServiceNameSpace::ServiceBaseIf*)DesignPatternsNamespace::HighFactory::getInstance().construct(serviceType1, "1234");
+    ServiceNameSpace::ServiceBaseIf* service01 = (ServiceNameSpace::ServiceBaseIf*)DesignPatternsNamespace::HighFactory::getInstance().construct(serviceType1, "4321");
     
     // REGISTER SERVICEs in container
     // 3] Register service in container
@@ -179,17 +180,24 @@ void StartUpNameSpace::StartUp::sandBox()
     std::cout<< " <---- BUILDER PATTERN END----> " << std::endl;
     
     
-    
-    
+
+
     std::cout<< " <---- ABSTRACT FACTORY PATTERN START ----> " << std::endl;
+    // Create Factory
     DesignPatternsNamespace::AbstractFactoryIf* af0 = new DesignPatternsNamespace::AbstractFactorySaharaCar;
-    std::cout << af0->getName() << std::endl;
-    ServiceNameSpace::CarIf*  sahareCar0 = af0->getCar();
-    std::cout << " xxx sahareCar0: " << sahareCar0->getObjectName() << std::endl;
+    std::cout << "Factory in StartUp created: " << af0->getName() << std::endl;
     
+    ServiceNameSpace::CarIf* carSahara = new ServiceNameSpace::CarSahara("CarSahara");
+    carSahara->setEngine(af0->getEngine());
+    carSahara->setWheel(af0->getWheel());
+
+    // Create Factory
     DesignPatternsNamespace::AbstractFactoryIf* af1 = new DesignPatternsNamespace::AbstractFactorySibirCar;
-    std::cout << af1->getName() << std::endl;
-    ServiceNameSpace::CarIf*  sibirCar0 = af1->getCar();
-    std::cout << " xxx sibirCar0: " << sibirCar0->getObjectName() << std::endl;
-    std::cout<< " <---- ABSTRACT FACTORY PATTERN END ----> " << std::endl;
+    std::cout << "Factory in StartUp created: " << af1->getName() << std::endl;
+    
+    ServiceNameSpace::CarIf* carSibir = new ServiceNameSpace::CarSibir("CarSibir");
+    carSibir->setEngine(af1->getEngine());
+    carSibir->setWheel(af1->getWheel()); 
+
+    std::cout<< " <---- ABSTRACT FACTORY PATTERN END ----> " << std::endl; 
 }

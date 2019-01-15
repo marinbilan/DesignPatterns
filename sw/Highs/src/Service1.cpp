@@ -59,7 +59,6 @@ std::vector<std::string>& ServiceNameSpace::Service1::getListRef()
     std::cout << "[Service1][getListRef] OK" << std::endl;
         
     std::string str0("str0");
-    std::vector<std::string> vec;
     vec.push_back(str0);
         
     return vec;
@@ -77,9 +76,7 @@ void ServiceNameSpace::Service1::getFileStatistics2(std::vector<std::string>& fi
     std::cout << "[Service1][getFileStatistics2] OK" << std::endl;
 } 
 
-//
-// unit Test
-//
+
 int ServiceNameSpace::Service1::returnInt0(int i, std::string& str)
 {
     std::cout << "[Service1][returnInt0] OK" << std::endl;
@@ -87,11 +84,8 @@ int ServiceNameSpace::Service1::returnInt0(int i, std::string& str)
 } 
 
 
-// NEW Start
 int ServiceNameSpace::Service1::returnInt()
 {
     std::cout << "[Service1][returnInt] OK" << std::endl;
     return 0;
 } 
-
-// NEW End

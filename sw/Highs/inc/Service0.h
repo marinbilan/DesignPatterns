@@ -21,40 +21,38 @@ public:
     
     std::string getObjectName();    // Token
     //
-    
+ 
+    // Set   
     void setService1If(Service1If* service1IfPrt);
 
-    std::vector<std::string> sampleInsertElement(std::string inputString, int position);
-    
-    void findFilesInHomeDrive(ScanIF& scanObject); // Mock Test
-    
-    std::vector<std::string> getVectorOfDummyStrings();
-    
-    std::string getDummyString();
-    
-    std::string findFileStat();
-    
-    std::string findFileStatTest();
-    
-    //
-    // unit Test
-    //
-    int unitTest0(std::string& str);
+    // Get
 
-    // NEW Start
     virtual int returnInt(int intInput);    
     
     virtual void setRefInt(int& intRefInput) ;
     
     virtual bool mockInMethod0();
-    // NEW End
     
+    int unitTest0(std::string& str);
+
+    std::vector<std::string> sampleInsertElement(std::string inputString, int position);
+
+    void findFilesInHomeDrive(ScanIF& scanObject); 
+ 
+    std::string getDummyString();
+ 
+    std::vector<std::string> getVectorOfDummyStrings();
+
+    std::string findFileStat();
+    
+    std::string findFileStatTest();
+
 private:
 std::string m_name;
 std::vector<std::string> m_vector0 = {};
 
 static const std::string objectID;
-Service1If* m_ScanRef;  // unitTest 
+Service1If* m_ScanRef; 
 };
 
 } // End of namespace

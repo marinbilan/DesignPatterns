@@ -1,9 +1,7 @@
 #include "ServiceCarParts.h"
 
 
-//
 // EngineSahara
-//
 const std::string ServiceNameSpace::EngineSahara::objectID= "ServiceNameSpace::EngineSahara"; 
 
 
@@ -45,9 +43,7 @@ std::string ServiceNameSpace::EngineSahara::getObjectName()
 }
 
 
-//
 // EngineSibir
-//
 const std::string ServiceNameSpace::EngineSibir::objectID= "ServiceNameSpace::EngineSibir"; 
 
 
@@ -89,9 +85,7 @@ std::string ServiceNameSpace::EngineSibir::getObjectName()
 }
 
 
-//
 // WheelSahara
-//
 const std::string ServiceNameSpace::WheelSahara::objectID= "ServiceNameSpace::WheelSahara"; 
 
 
@@ -133,9 +127,7 @@ std::string ServiceNameSpace::WheelSahara::getObjectName()
 }
 
 
-//
 // WheelSibir
-//
 const std::string ServiceNameSpace::WheelSibir::objectID= "ServiceNameSpace::WheelSibir"; 
 
 

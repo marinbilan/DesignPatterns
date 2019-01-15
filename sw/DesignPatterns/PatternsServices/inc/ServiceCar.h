@@ -19,7 +19,7 @@ public:
     
     std::string getObjectId();  // Constructor
     
-    std::string getObjectName();    // Token
+    std::string getObjectName(); 
     //
 
     void setEngine(CarEngineIf* engine);
@@ -49,7 +49,7 @@ public:
     
     std::string getObjectId();  // Constructor
     
-    std::string getObjectName();    // Token
+    std::string getObjectName(); 
     //
 
     void setEngine(CarEngineIf* engine);

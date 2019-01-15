@@ -18,15 +18,15 @@ googletest = /home/marin/libs/googletest/googletest/include
 common_sources = main.cpp \
                  sw/StartUp/src/StartUp.cpp \
                  sw/Container/src/Container.cpp \
-                 sw/DesignPatterns/src/ServiceFactory.cpp \
-                 sw/Services/src/Service0.cpp \
-                 sw/Services/src/Service1.cpp \
+                 sw/DesignPatterns/src/HighFactory.cpp \
+                 sw/Highs/src/Service0.cpp \
+                 sw/Highs/src/Service1.cpp \
                  sw/DesignPatterns/PatternsServices/src/ServiceCar.cpp \
                  sw/DesignPatterns/PatternsServices/src/ServiceCarParts.cpp \
                  sw/DesignPatterns/src/DriverFactory.cpp \
                  sw/DesignPatterns/src/BuilderPattern.cpp \
                  sw/DesignPatterns/src/AbstractFactory.cpp \
-                 sw/Drivers/src/Driver0.cpp \
+                 sw/Lows/src/Driver0.cpp \
 
 all:
 	g++ $(CXXFLAGS) \
@@ -40,14 +40,14 @@ all:
 	-I sw/StartUp/inc \
 	-I sw/Container/if \
 	-I sw/Container/inc \
-	-I sw/Services/if \
-	-I sw/Services/inc \
+	-I sw/Highs/if \
+	-I sw/Highs/inc \
 	-I sw/DesignPatterns/if \
 	-I sw/DesignPatterns/inc \
 	-I sw/DesignPatterns/PatternsServices/if \
 	-I sw/DesignPatterns/PatternsServices/inc \
-	-I sw/Drivers/if \
-	-I sw/Drivers/inc \
+	-I sw/Lows/if \
+	-I sw/Lows/inc \
 	-o  App01 \
 
 
@@ -56,9 +56,9 @@ all:
 # Execute: ./gmockTest 
 
 # test sources
-test_sources = sw/Services/src/Service0.cpp \
-               sw/Services/src/Service1.cpp \
-               sw/Services/unitTest/testService0.cpp \
+test_sources = sw/Highs/src/Service0.cpp \
+               sw/Highs/src/Service1.cpp \
+               sw/Highs/unitTest/testService0.cpp \
 
 test:
 	g++ $(CXXFLAGS) \
@@ -68,8 +68,8 @@ test:
 	-L $(libs)  \
 	-I $(googlemock) \
 	-I $(googletest) \
-	-I sw/Services/if \
-	-I sw/Services/inc \
-	-I sw/Services/unitTest \
+	-I sw/Highs/if \
+	-I sw/Highs/inc \
+	-I sw/Highs/unitTest \
 	-pthread  \
 	-o gmockTest \

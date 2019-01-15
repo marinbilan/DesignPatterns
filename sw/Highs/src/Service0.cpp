@@ -51,6 +51,68 @@ void ServiceNameSpace::Service0::setService1If(Service1If* service1IfPrt)
 }
 
 
+int ServiceNameSpace::Service0::returnInt(int intInput)
+{ 
+    int in = intInput;
+    std::cout << "[returnInt] in = " << in << std::endl;
+    
+    if(in == 0)
+    {
+        return false;
+    } else
+    {
+        return true;
+    }
+} 
+
+
+void ServiceNameSpace::Service0::setRefInt(int& intRefInput)
+{ 
+    intRefInput = 17;
+} 
+
+
+bool ServiceNameSpace::Service0::mockInMethod0()
+{ 
+    int testInt = m_ScanRef->returnInt();
+    
+    if(testInt == 0)
+    {
+        return false;
+    } else 
+    {
+        return true;
+    }
+} 
+
+
+int ServiceNameSpace::Service0::unitTest0(std::string& str)
+{ 
+    std::string fString("fString");
+    str = fString;
+
+    int testInt = m_ScanRef->returnInt();
+     std::cout << "[Service0][unitTest0] > testInt: " << testInt << std::endl;
+    
+    int i = 7;
+    std::string str0("expectedString");
+    // std::string& str1 = str0; // and this will also work
+
+    std::cout << "[Service0][unitTest0] > str0 before mocking: " << str0 << std::endl;   
+    int testInt0 = m_ScanRef->returnInt0(i, str0);
+    std::cout << "[Service0][unitTest0] > str0 after mocking: " << str0 << std::endl; 
+    
+    if(testInt == 17)
+    {
+        return 0;
+    } 
+    else 
+    {
+        return 1;
+    } 
+} 
+
+
 std::vector<std::string> ServiceNameSpace::Service0::sampleInsertElement(std::string inputString, int position)
 {
     std::cout << "[Service0][sampleInsertElement] OK" << std::endl;
@@ -75,7 +137,7 @@ std::vector<std::string> ServiceNameSpace::Service0::sampleInsertElement(std::st
         std::cout << "standard exception: " << e.what() << std::endl;
     }
 
-    // TEST_2    
+    // TEST_2 
     /*    vSample.insert(vSample.begin(), inputString);*/
 
     return vSample;
@@ -100,25 +162,25 @@ void ServiceNameSpace::Service0::findFilesInHomeDrive(ScanIF& scanObject)
 }
 
 
-std::vector<std::string> ServiceNameSpace::Service0::getVectorOfDummyStrings()
-{
-    std::cout << "[Service0][getVectorOfDummyStrings] OK" << std::endl;
-    
-    std::vector<std::string> vec;
-    vec.push_back("/home/Downloads");
-    vec.push_back("string 1");
-    vec.push_back("string 2");
-    
-    return vec;
-} 
-
-
 std::string ServiceNameSpace::Service0::getDummyString()
 {
     std::cout << "[Service0][getDummyString] OK" << std::endl;
     
     std::string str("this is dummy string");
     return str;
+} 
+
+
+std::vector<std::string> ServiceNameSpace::Service0::getVectorOfDummyStrings()
+{
+    std::cout << "[Service0][getVectorOfDummyStrings] OK" << std::endl;
+
+    std::vector<std::string> vec;
+    vec.push_back("/home/Downloads");
+    vec.push_back("string 1");
+    vec.push_back("string 2");
+    
+    return vec;
 } 
 
 
@@ -183,76 +245,3 @@ std::string ServiceNameSpace::Service0::findFileStatTest()
     }
     return "OK";
 } 
-
-//
-// unit Test
-//
-int ServiceNameSpace::Service0::unitTest0(std::string& str)
-{ 
-    // Test 1
-    std::string fString("fString");
-    str = fString;
-    std::cout << "[Service0][unitTest0] > str: " << str << std::endl;
-    // MOCK (Service1)
-    int testInt = m_ScanRef->returnInt();
-    //
-    std::cout << "[Service0][unitTest0] > testInt: " << testInt << std::endl;
-    
-    
-    // Test 2
-    int i = 7;
-    std::string str0("expectedString");
-    //
-    int testInt0 = m_ScanRef->returnInt0(i, str0);
-    // MOCK (Service1)
-    std::cout << "[Service0][unitTest0] > testInt0: " << testInt0 << std::endl;
-    std::cout << "[Service0][unitTest0] > str0: " << str0 << std::endl;
-    
-    // 
-    
-    if(testInt == 17)
-    {
-        return 0;
-    } 
-    else 
-    {
-        return 1;
-    }
-} 
-
-
-// NEW Start
-int ServiceNameSpace::Service0::returnInt(int intInput)
-{ 
-    int in = intInput;
-    std::cout << "[returnInt] in = " << in << std::endl;
-    
-    if(in == 0)
-    {
-        return false;
-    } else
-    {
-        return true;
-    }
-} 
-
-
-void ServiceNameSpace::Service0::setRefInt(int& intRefInput)
-{ 
-    intRefInput = 17;
-} 
-
-
-bool ServiceNameSpace::Service0::mockInMethod0()
-{ 
-    int testInt = m_ScanRef->returnInt();
-    
-    if(testInt == 0)
-    {
-        return false;
-    } else 
-    {
-        return true;
-    }
-} 
-// NEW End

@@ -16,7 +16,7 @@ public:
     {
         std::cout << "[DesignPatternsBaseIf] Virtual DesignPatternsBaseIf destructor called" << std::endl;
     }
-  
+
     virtual std::string getName() = 0;
 };
 

@@ -10,8 +10,6 @@ int fileSize;
 };
 
 
-
-
 namespace ServiceNameSpace
 {
 
@@ -41,15 +39,10 @@ public:
     
     virtual void getFileStatistics2(std::vector<std::string>& filePath, FileStat* fileStat) = 0;
 
-    //
-    // unit Test
-    //
     virtual int returnInt0(int i, std::string& str) = 0;
     
-    // NEW Start
     virtual int returnInt() = 0;
-    
-    // NEW End
+
 };
 
 } // End of namespace

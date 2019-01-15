@@ -4,6 +4,7 @@
 #include <gmock/gmock.h>
 #include "gtest/gtest.h"
 
+
 namespace ServiceNameSpace
 {
 
@@ -32,25 +33,17 @@ public:
     
     void getFileStatistics2(std::vector<std::string>& filePath, FileStat* fileStat);
  
-    //
-    // unit Test
-    //
     int returnInt0(int i, std::string& str);
  
- 
-    // NEW Start
     virtual int returnInt();
-    
-    // NEW End
  
 private:
 static const std::string objectID;
 std::string m_name;
+std::vector<std::string> vec;
 };
 
 } // End of namespace
-
-
 
 
 class Service1Mock : public ServiceNameSpace::Service1If

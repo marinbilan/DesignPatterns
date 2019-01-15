@@ -14,11 +14,15 @@ public:
     
     std::string getName();
     
-    ServiceNameSpace::CarIf* getCar();
+    ServiceNameSpace::CarEngineIf* getEngine();
+    
+    ServiceNameSpace::CarWheelIf* getWheel(); 
     
 private:
 static const std::string objectID;
 
+ServiceNameSpace::CarEngineIf* m_engine;
+ServiceNameSpace::CarWheelIf* m_wheel; 
 };
 
 
@@ -31,11 +35,15 @@ public:
     
     std::string getName();
     
-    ServiceNameSpace::CarIf* getCar();
+    ServiceNameSpace::CarEngineIf* getEngine();
+    
+    ServiceNameSpace::CarWheelIf* getWheel(); 
     
 private:
 static const std::string objectID;
 
+ServiceNameSpace::CarEngineIf* m_engine;
+ServiceNameSpace::CarWheelIf* m_wheel; 
 };
 
 } // End of namespace

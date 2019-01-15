@@ -8,7 +8,7 @@
 
 #include "BaseIf.h"
 #include "FactoryIf.h"
-#include "ServiceFactory.h"
+#include "HighFactory.h"
 
 // Vazno!
 using ::testing::_;
@@ -31,7 +31,7 @@ public:
     // Before Each Test
     void SetUp()
     {
-        factory0 = new DesignPatterns::ServiceFactory(11);
+        factory0 = new DesignPatterns::HighFactory(11);
     }
     // After Each Test
     void TearDown()
@@ -44,7 +44,7 @@ public:
 // TEST_F Only when object is created in FIXTURE
 TEST_F(TestFactory, testFactorySetUpTearDown)
 {   
-    std::string str0("ServiceFactory");
+    std::string str0("HighFactory");
  
     EXPECT_EQ(factory0->getName(), str0);
 }
