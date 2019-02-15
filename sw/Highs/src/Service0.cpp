@@ -101,8 +101,11 @@ int ServiceNameSpace::Service0::unitTest0(std::string& str)
     std::cout << "[Service0][unitTest0] > str0 before mocking: " << str0 << std::endl;   
     int testInt0 = m_ScanRef->returnInt0(i, str0);
     std::cout << "[Service0][unitTest0] > str0 after mocking: " << str0 << std::endl; 
+
+    testInt0 = 122;
     
-    if(testInt == 17)
+    // Just for unitTest exercise
+    if(testInt == 17 && testInt0 == 122)
     {
         return 0;
     } 
@@ -207,6 +210,7 @@ std::string ServiceNameSpace::Service0::findFileStat()
        return "success_in_stats";
     } 
 
+    return "temp";
 } 
 
 

@@ -6,11 +6,27 @@
 // git remote add origin https://github.com/marinbilan/DesignPatterns.git
 // git push -u origin master
 
+/*
+void test1()
+{
+    const int NUM_HEIGHTS = 3;
+    int* heights = (int*)malloc(NUM_HEIGHTS * sizeof(* heights));
+    for(int i = 0; i < NUM_HEIGHTS; i++)
+    {
+        heights[i] = i*i;
+        std::cout << " test1() i= " << heights[i] << std::endl;
+    }
+    
+    free(heights);
+} 
+*/
+
 int main(int argc, char *argv[])
 {
-    // int argc, char *argv[]
-    // std::cout << "argc = " << argc << "argv[0] =" << argv[0] << " argv[1] =" << argv[1]  << " argv[2] =" << argv[2]  << std::endl;
+    // std::cout << "argc = " << argc << " argv[0] = " << argv[0] << " argv[1] = " << argv[1]  << " argv[2] = " << argv[2]  << std::endl;
 
+    // test1();
+    
 /*    std::string line;
     std:: ifstream myfile ("sw/db/db.txt");
     std::vector<std::string> createDbClasses;
@@ -53,7 +69,7 @@ int main(int argc, char *argv[])
 
     // Init everything
     StartUpNameSpace::StartUp startUp;
-    startUp.init();
+    startUp.init(); 
     
     std::cout << "Enter something ..." << std::endl;
     std::cin.get();

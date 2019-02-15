@@ -12,6 +12,9 @@
 #include "BuilderPattern.h"
 #include "AbstractFactoryIf.h"
 #include "AbstractFactory.h"
+// ModernEffectiveCpp
+#include "Chapter5If.h"
+#include "Chapter5.h"
 
 
 const std::string StartUpNameSpace::StartUp::objectID= "StartUp"; 
@@ -48,11 +51,14 @@ void StartUpNameSpace::StartUp::init()
     // 2] Create all service instances (invoke constructor via second param of map (template function ptr))
     createAllServiceInstances();
     
-    // 3] TODO preInit
+    // 3] TODO preInit of all registered services
     
-    // 4] TODO postInit
+    // 4] TODO postInit of all registered services
     
-    sandBox();
+    // sandBox();
+    
+    // Modern Effective Cpp 
+    modernEffectiveCpp_Chapter5_Item30();
 
 }
 
@@ -132,7 +138,7 @@ void StartUpNameSpace::StartUp::sandBox()
     
     //
     //
-    // Drivers
+    // Lows
     //
     //
 
@@ -200,4 +206,66 @@ void StartUpNameSpace::StartUp::sandBox()
     carSibir->setWheel(af1->getWheel()); 
 
     std::cout<< " <---- ABSTRACT FACTORY PATTERN END ----> " << std::endl; 
+}
+
+void StartUpNameSpace::StartUp::modernEffectiveCpp_Chapter5_Item30()
+{
+    std::cout<< " <---- Effective Modern Cpp START ----> " << std::endl; 
+    
+    Chapter5NameSpace::Chapter5* chapter5_Item30 = new Chapter5NameSpace::Chapter5("Chapter5_Item30");
+    std::cout << " Chapter 5 : " << chapter5_Item30->getObjectName() << std::endl;
+    
+    // Ex 1 - Print variadic number of params
+    chapter5_Item30->f0(2, 1, 4, 3, 5, 7);
+    // Ex 1.1 - Print variadic number of params
+    chapter5_Item30->f1(2, 1, 4, 3, 5, 7);
+    
+    // Ex 2
+    int i = 10; 
+    // fwd(10); // Ne radi 
+    chapter5_Item30->fwd(std::move(10)); // calling int && 
+    chapter5_Item30->fwd(i); // calling int & 
+    chapter5_Item30->fwd(std::move(i)); // calling int && 
+    
+    std::vector<int> vecOfInts = {0, 1, 2};
+    chapter5_Item30->fwd( vecOfInts );  // calling const std::vector<int>&
+    chapter5_Item30->fwd( std::move(vecOfInts) ); // calling const std::vector<int>&&
+    
+    // Ex 3 
+    // "{1, 2, 3}" implicitly converted to std::vector<int> 
+    chapter5_Item30->f({ 1, 2, 3 }); // Ok (Copira objekte)  u {} onda // calling const std::vector<int>&&
+
+    // fwd({ 1, 2, 3 }); // error 
+    // Compilers are unable to deduce a type for one or more of fwds parameters 
+    // ili  
+    // Compilers deduce the wrong type for one or more of fwds parameters 
+    
+    // Ex 4 
+    /*
+    // Funkcije se isto mogu prenjeti kao i varijable u funkciju. U ovom primjeru funkcije nisu implementirane
+    // one moraju biti nezavisne (ne smiju biti member funkcije nekog objekta) - Pogledati Item 30
+    
+    // Ok - Compiler knows which processVal function to call  
+    f(processVal); 
+    
+    // Problem - fwd ne zna koju funkciju pozvati, potrebno je eksplicitno definirati params 
+    // fwd(processVal) - error! which processVal? 
+    
+    using ProcessFuncType = int (*)(int); 
+    ProcessFuncType processValPtr = processVal;    // ok 
+
+    // fwd(processVal);    // Now OK! - Check this when implement in framework 
+    // fwd(static_cast<ProcessFuncType>(workOnVal)); // also fine - Check this also 
+    */
+    
+    
+    /*
+    < Things to Remember >
+    Perfect forwarding fails when template type deduction fails or when it deduces the wrong type. 
+
+    The kinds of arguments that lead to perfect forwarding failure are braced initializers, 
+    null pointers expressed as 0 or NULL, declaration-only integral const 
+    static data members, template and overloaded function names, and bitfields. 
+     */
+    std::cout<< " <---- Effective Modern Cpp END ----> " << std::endl; 
 }

@@ -59,4 +59,6 @@ ServiceNameSpace::ServiceBaseIf* ContainerNameSpace::Container::getServiceFromCo
             return it->second;
         }
     }
+    
+    return nullptr;
 }

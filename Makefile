@@ -1,5 +1,5 @@
 # < ---- VARIABLES ---->
-CXXFLAGS = -std=c++14
+CXXFLAGS = -Wall -Werror -g -std=c++14
 
 gmock = -lgmock
 gmock_main = -lgmock_main
@@ -27,6 +27,7 @@ common_sources = main.cpp \
                  sw/DesignPatterns/src/BuilderPattern.cpp \
                  sw/DesignPatterns/src/AbstractFactory.cpp \
                  sw/Lows/src/Driver0.cpp \
+                 sw/EffectiveModernCpp/src/Chapter5.cc \
 
 all:
 	g++ $(CXXFLAGS) \
@@ -46,6 +47,8 @@ all:
 	-I sw/DesignPatterns/inc \
 	-I sw/DesignPatterns/PatternsServices/if \
 	-I sw/DesignPatterns/PatternsServices/inc \
+	-I sw/EffectiveModernCpp/if \
+	-I sw/EffectiveModernCpp/inc \
 	-I sw/Lows/if \
 	-I sw/Lows/inc \
 	-o  App01 \
