@@ -1,6 +1,7 @@
 # < ---- VARIABLES ---->
 # -Wall -Werror 
-CXXFLAGS = -g -std=c++14
+#  -no-pie is added because of link error in UT
+CXXFLAGS = -g -no-pie -std=c++14
 
 gmock = -lgmock
 gmock_main = -lgmock_main
