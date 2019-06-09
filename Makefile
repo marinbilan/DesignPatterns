@@ -1,17 +1,21 @@
 # < ---- VARIABLES ---->
-CXXFLAGS = -Wall -Werror -g -std=c++14
+# -Wall -Werror 
+CXXFLAGS = -g -std=c++14
 
 gmock = -lgmock
 gmock_main = -lgmock_main
 
 # < ---- FOLDER INCLUDEs ---->
-libs = /home/marin/libs
-googlemock = /home/marin/libs/googletest/googlemock/include
-googletest = /home/marin/libs/googletest/googletest/include
+# libgmock.a and libgmock_main.a
+libs = GTestFolder
+# gMock
+googlemock = GTestFolder/googletest/googlemock/include
+# gTest
+googletest = GTestFolder/googletest/googletest/include
 
 
 # < ---- BUILD INFO ---->
-# Build: make all           // all - build common_sources 
+# Build: make all       // all - build common_sources 
 # Execute: ./App01      // Vazno [ ./ ] - Pokreni iz trenutnog foldera 
 
 # sources 
@@ -32,8 +36,8 @@ common_sources = main.cpp \
 all:
 	g++ $(CXXFLAGS) \
 	$(common_sources) \
-	$(gmock) \
-	$(gmock_main) \
+	$(-lgmock) \
+	$(-lgmock_main) \
 	-L $(libs)  \
 	-I $(googlemock) \
 	-I $(googletest) \

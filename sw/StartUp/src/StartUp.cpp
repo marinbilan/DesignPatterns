@@ -57,8 +57,10 @@ void StartUpNameSpace::StartUp::init()
     
     // sandBox();
     
-    // Modern Effective Cpp 
-    modernEffectiveCpp_Chapter5_Item30();
+    // MODERN EFFECTIVE C++ 
+    modernEffectiveCpp_Chapter5_Item29();
+    
+    // modernEffectiveCpp_Chapter5_Item30();
 
 }
 
@@ -208,9 +210,70 @@ void StartUpNameSpace::StartUp::sandBox()
     std::cout<< " <---- ABSTRACT FACTORY PATTERN END ----> " << std::endl; 
 }
 
+void StartUpNameSpace::StartUp::modernEffectiveCpp_Chapter5_Item29()
+{
+    std::cout<< " <---- Effective Modern Cpp Item 29 START ----> " << std::endl; 
+    
+    // Ex 1
+    std::vector<Chapter5NameSpace::Holder> vw1; 
+    Chapter5NameSpace::Holder h0(10); 
+    Chapter5NameSpace::Holder h1(11); 
+
+    // Output: 
+    // Holder constructor called!                                                                                                                                                  
+    // Holder constructor called!  
+    std::cout << " ---- " << std::endl; 
+
+    vw1.push_back(h0); 
+    vw1.push_back(h1); 
+    
+     // Output: 
+    // Holder copy constructor called!                                                                                                                                             
+    // Holder copy constructor called!                                                                                                                                             
+    // Holder copy constructor called!   
+
+    // Vazno - kod operacije std::move(vector) - Samo se vw2 ptr postavi na vw1 a vw1 = nullptr
+    // Nema kopiranja svih elemenata kao kod std::array (Klasicna std::move() semantika)
+    auto vw2 = std::move(vw1);
+    
+    // vw1 = {h0, h1}; // U ovom slucaju kreira se temp objekt u viticanstim zagradama 
+    // 2 copy constructor poziva + 2 copy constructor poziva za kopiranje u vector vw2
+    
+    
+    // Ex 1.1
+    // std::array nema move copy constructor pa sve objekte move-a u novi std::array
+    std::cout << " ---- std::array ----" << std::endl; 
+    Chapter5NameSpace::Holder h2(10); 
+    Chapter5NameSpace::Holder h3(11); 
+
+    // Output: 
+    // Holder constructor called!                                                                                                                                                  
+    // Holder constructor called!  
+
+    std::cout << " ---- " << std::endl; 
+    std::array<Chapter5NameSpace::Holder, 2> vw3 = {h2, h3}; // Samo u ovom obliku radi! 
+
+    // Output: 
+    // Holder copy constructor called! 
+    // Holder copy constructor called! 
+    std::cout << " ---- " << std::endl; 
+
+    auto vw4 = std::move(vw3);   
+    // Output: [MOVE OBJECTs] 
+    // Holder Move Constructor operator called! 
+    // Holder Move Constructor operator called!  
+ 
+    /*
+     < Things to Remember >
+    - Assume that move operations are not present, not cheap, and not used
+    - In code with known types or support for move semantics, there is no need for  assumptions
+     */
+    std::cout<< " <---- Effective Modern Cpp Item 29 END ----> " << std::endl; 
+}
+
 void StartUpNameSpace::StartUp::modernEffectiveCpp_Chapter5_Item30()
 {
-    std::cout<< " <---- Effective Modern Cpp START ----> " << std::endl; 
+    std::cout<< " <---- Effective Modern Cpp Item 30 START ----> " << std::endl; 
     
     Chapter5NameSpace::Chapter5* chapter5_Item30 = new Chapter5NameSpace::Chapter5("Chapter5_Item30");
     std::cout << " Chapter 5 : " << chapter5_Item30->getObjectName() << std::endl;
@@ -235,7 +298,10 @@ void StartUpNameSpace::StartUp::modernEffectiveCpp_Chapter5_Item30()
     // "{1, 2, 3}" implicitly converted to std::vector<int> 
     chapter5_Item30->f({ 1, 2, 3 }); // Ok (Copira objekte)  u {} onda // calling const std::vector<int>&&
 
-    // fwd({ 1, 2, 3 }); // error 
+    // fwd({ 1, 2, 3 }); // error.  That’s because the use of a braced initializer is a perfect forwarding failure case.
+    // {1, 2, 3} - Problem je sto je ovo temp objekt koji se predaje metodi fwd.. A vidimo i gore da se ne moze 
+    // predati temp objekt primjer fwd(10) isto ne radi!
+    
     // Compilers are unable to deduce a type for one or more of fwds parameters 
     // ili  
     // Compilers deduce the wrong type for one or more of fwds parameters 
@@ -261,11 +327,11 @@ void StartUpNameSpace::StartUp::modernEffectiveCpp_Chapter5_Item30()
     
     /*
     < Things to Remember >
-    Perfect forwarding fails when template type deduction fails or when it deduces the wrong type. 
+    - Perfect forwarding fails when template type deduction fails or when it deduces the wrong type. 
 
-    The kinds of arguments that lead to perfect forwarding failure are braced initializers, 
+    - The kinds of arguments that lead to perfect forwarding failure are braced initializers, 
     null pointers expressed as 0 or NULL, declaration-only integral const 
     static data members, template and overloaded function names, and bitfields. 
      */
-    std::cout<< " <---- Effective Modern Cpp END ----> " << std::endl; 
+    std::cout<< " <---- Effective Modern CppItem 30 END ----> " << std::endl; 
 }

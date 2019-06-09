@@ -41,6 +41,14 @@ std::string Chapter5NameSpace::Chapter5::getObjectName()
     return m_name;
 }
 
+
+// ITEM 29
+void Chapter5NameSpace::Chapter5::Chapter5_Item29() 
+{ 
+    std::cout << " ... Chapter5_Item29 ..." << std::endl;        
+} 
+
+
 // ITEM 30 
 // Ex 2
 void Chapter5NameSpace::Chapter5::f(int&& i) 
