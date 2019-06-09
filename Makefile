@@ -7,11 +7,11 @@ gmock_main = -lgmock_main
 
 # < ---- FOLDER INCLUDEs ---->
 # libgmock.a and libgmock_main.a
-libs = GTestFolder
+libs = GTestLibs
 # gMock
-googlemock = GTestFolder/googletest/googlemock/include
+googlemock = GTestLibs/googletest/googlemock/include
 # gTest
-googletest = GTestFolder/googletest/googletest/include
+googletest = GTestLibs/googletest/googletest/include
 
 
 # < ---- BUILD INFO ---->
