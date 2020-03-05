@@ -33,6 +33,7 @@ common_sources = main.cpp \
                  sw/DesignPatterns/src/AbstractFactory.cpp \
                  sw/Lows/src/Driver0.cpp \
                  sw/EffectiveModernCpp/src/Chapter5.cc \
+                 sw/Reactor/src/Logging_Acceptor.cc \
 
 all:
 	g++ $(CXXFLAGS) \
@@ -56,6 +57,8 @@ all:
 	-I sw/EffectiveModernCpp/inc \
 	-I sw/Lows/if \
 	-I sw/Lows/inc \
+	-I sw/Reactor/if \
+	-I sw/Reactor/inc \
 	-o  App01 \
 
 
