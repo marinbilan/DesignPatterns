@@ -50,7 +50,20 @@ public:
     {
         return m_clientId;
     }
-    
+
+    std::string send()
+    {
+        std::string msg("Sending msg from handler: ");
+        std::string retMsg = msg + std::to_string(m_clientId);
+
+        return retMsg;
+    }
+
+    void toString()
+    {
+        std::cout << "EventHandler clientId: " << m_clientId << '\n';
+    }
+
 private:
 int m_clientId;
 };
@@ -135,26 +148,30 @@ public:
      
         // [2] add master socket to set  
         FD_SET(master_socket, &readfds);   
-        max_sd = master_socket;   
-             
-        // [3] add child sockets to set  
-        for (int i = 0; i < max_clients; i++)   
-        {   
-            // [3.1] socket descriptor  
-            sd = client_socket[i];   
-                 
+        max_sd = master_socket;
+
+        // [3] Set child file descriptors to FD_SET (every iteration)
+        for(auto s : m_vecOfEventHandler)
+        {
+            sd = s->getClientId();
+
             // if valid socket descriptor then add to read list  
             if(sd > 0)   
-                FD_SET( sd , &readfds);   
+            {
+                FD_SET(sd , &readfds);
+            } 
                  
-            // highest file descriptor number, need it for the select function  
-            if(sd > max_sd)   
-                max_sd = sd;   
-        }   
+            // Highest file descriptor number, need it for the select function  
+            // Changing master socketId all the time
+            if(sd > max_sd)
+            {
+                max_sd = sd; 
+            } 
+        }
      
-        // [4] wait for an activity on one of the sockets, timeout is NULL, so wait indefinitely
-        std::cout << "Waiting for activity ... max_sd: " <<  max_sd << '\n';
-        activity = select( max_sd + 1 , &readfds , NULL , NULL , NULL);   
+        // [4] Wait for an activity on one of the sockets, timeout is NULL, so wait indefinitely
+        std::cout << "Waiting for activity ..." << '\n';
+        activity = select(max_sd + 1 , &readfds , NULL , NULL , NULL);   
        
         if ((activity < 0) && (errno!=EINTR))   
         {   
@@ -170,68 +187,69 @@ public:
                 perror("accept");   
                 exit(EXIT_FAILURE);   
             }   
+
+            // Create handler for each client (client <-> handler)
+            EventHandler* clientHandler = new EventHandler(new_socket);
              
-            //inform user of socket number - used in send and receive commands  
+            // Inform user of socket number - used in send and receive commands  
             printf("New connection , socket fd is %d , ip is : %s , port : %d\n", new_socket, inet_ntoa(address.sin_addr) , ntohs(address.sin_port));
-           
-            //send new connection greeting message  
-            if(send(new_socket, message, strlen(message), 0) != strlen(message) )   
+            clientHandler->toString();
+
+            // Send new connection greeting message 
+            if(send(clientHandler->getClientId(), welcomeMessage, strlen(welcomeMessage), 0) != strlen(welcomeMessage) )   
             {   
                 perror("send");   
-            }   
-                 
-            // puts("Welcome message sent successfully");   
-                 
-            //add new socket to array of sockets  
-            for (i = 0; i < max_clients; i++)   
-            {   
-                //if position is empty  
-                if( client_socket[i] == 0 )   
-                {   
-                    client_socket[i] = new_socket;   
-                    printf("Adding to list of sockets as %d\n" , i);   
-                         
-                    break;   
-                }   
-            }   
+            }
+
+            // Add hendler in vec of handlers
+            m_vecOfEventHandler.push_back(clientHandler);
         }   
-             
-        //else its some IO operation on some other socket 
-        for (i = 0; i < max_clients; i++)   
-        {   
-            sd = client_socket[i];   
-                 
-            if (FD_ISSET( sd , &readfds))   
+
+        // Close event or Read event
+        for(auto s : m_vecOfEventHandler)
+        {
+            sd = s->getClientId();
+
+            if (FD_ISSET(sd , &readfds))   
             {   
-                //Check if it was for closing , and also read the  
-                //incoming message  
-                if ((valread = read( sd , buffer, 1024)) <= 0)   
+                //Check if it was for closing, and also read the incoming message  
+                if ((valread = read(sd , buffer, 1024)) <= 0)   
                 {   
                     std::cout << "EVENT: CLOSE_EVENT" << '\n';
-                    //Somebody disconnected , get his details and print  
+
+                    // Somebody disconnected , get his details and print  
                     getpeername(sd , (struct sockaddr*)&address, (socklen_t*)&addrlen);   
-                    printf("Host disconnected , ip %s , port %d \n" ,  
-                          inet_ntoa(address.sin_addr) , ntohs(address.sin_port));   
-                         
-                    //Close the socket and mark as 0 in list for reuse  
-                    close( sd );   
-                    client_socket[i] = 0;   
+                    printf("Host disconnected , ip %s , port %d \n", inet_ntoa(address.sin_addr) , ntohs(address.sin_port));   
+
+                    // NEW: Remove EventHandler (client) from vector
+                    for(auto it = m_vecOfEventHandler.begin(); it != m_vecOfEventHandler.end();) 
+                    {
+                        if( (*it)->getClientId() == sd ) 
+                        { 
+                            delete *it; 
+                            std::cout << "Deleting *it: " << *it << '\n'; 
+                            // Delete   
+                            it = m_vecOfEventHandler.erase(it);
+                        }
+                        else  
+                        { 
+                            ++it;  
+                        } 
+                    }     
                 }                    
-                //Echo back the message that came in  
+                // Echo back the message that came in  
                 else 
                 {  
                     std::cout << "EVENT: READ_EVENT" << '\n'; 
-                    //set the string terminating NULL byte on the end  
-                    //of the data read  
-                    buffer[valread] = '\0';
-                    std::string defaultMessage("This is default message from server!");
-                    send(sd , defaultMessage.c_str() , strlen(defaultMessage.c_str()) , 0 );
-                    // send(sd , buffer , strlen(buffer) , 0 );   
+
+                    // Message from client <-> handler using clientID
+                    std::string sendMsg = s->send();
+                    send(sd , sendMsg.c_str() , strlen(sendMsg.c_str()) , 0 ); 
                 }   
-            }   
-        }   
+            } 
+        }
     }	
-    }
+}
 
 private:	
 	// Singleton Factory - Private Constructor
@@ -256,11 +274,11 @@ private:
          
     char buffer[1025];  //data buffer of 1K 
 
-    //set of socket descriptors  
+    // Set of socket descriptors  
     fd_set readfds;   
          
-    //a message  
-    char* message = "ECHO from multi server";  
+    // Welcome message  
+    char* welcomeMessage = "ECHO from multi server";  
 
     // TODO: remove this
     std::vector<EventHandler*> m_vecOfEventHandler;
