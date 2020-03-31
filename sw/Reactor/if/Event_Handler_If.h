@@ -1,6 +1,7 @@
 #pragma once
 #include <string.h>
 #include <iostream>
+#include <vector>
 
 
 namespace Reactor
@@ -18,7 +19,7 @@ public:
 
     // Hook method that is called back by the
     // Initiation_Dispatcher to handle events.
-    virtual int handle_event (const std::string& eventType) = 0;
+    virtual int handle_event(const std::string& eventType) = 0;
     // Hook method that returns the underlying
     // I/O Handle.
     // virtual Handle get_handle (void) const = 0;

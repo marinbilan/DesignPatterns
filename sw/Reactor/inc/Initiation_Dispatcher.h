@@ -14,7 +14,9 @@
 #include <arpa/inet.h> 
 
 #include <errno.h> 
-#include <sys/time.h> //FD_SET, FD_ISSET, FD_ZERO macros  
+#include <sys/time.h> //FD_SET, FD_ISSET, FD_ZERO macros 
+
+#include "Logging_Acceptor.h"
 
 #define TRUE   1  
 #define FALSE  0  
@@ -31,42 +33,6 @@ Event Types as string
     SIGNAL_EVENT
     CLOSE_EVENT
 */
-
-// TODO: Remove this
-class EventHandler
-{
-public:
-    EventHandler(int clientId) : m_clientId(clientId)
-    {
-        std::cout << "EventHandler created. clientId: " << m_clientId << '\n';
-    }
-
-    ~EventHandler()
-    {
-        std::cout << "EventHandler removed. clientId: " << m_clientId << '\n';
-    }
-
-    int getClientId() const
-    {
-        return m_clientId;
-    }
-
-    std::string send()
-    {
-        std::string msg("Sending msg from handler: ");
-        std::string retMsg = msg + std::to_string(m_clientId);
-
-        return retMsg;
-    }
-
-    void toString()
-    {
-        std::cout << "EventHandler clientId: " << m_clientId << '\n';
-    }
-
-private:
-int m_clientId;
-};
 
 
 namespace Reactor
@@ -141,115 +107,122 @@ public:
     {         
     puts("Waiting for connections ...");
          
-    while(TRUE)   
-    {   
-        // [1] clear the socket set  
-        FD_ZERO(&readfds);   
-     
-        // [2] add master socket to set  
-        FD_SET(master_socket, &readfds);   
-        max_sd = master_socket;
-
-        // [3] Set child file descriptors to FD_SET (every iteration)
-        for(auto s : m_vecOfEventHandler)
-        {
-            sd = s->getClientId();
-
-            // if valid socket descriptor then add to read list  
-            if(sd > 0)   
-            {
-                FD_SET(sd , &readfds);
-            } 
-                 
-            // Highest file descriptor number, need it for the select function  
-            // Changing master socketId all the time
-            if(sd > max_sd)
-            {
-                max_sd = sd; 
-            } 
-        }
-     
-        // [4] Wait for an activity on one of the sockets, timeout is NULL, so wait indefinitely
-        std::cout << "Waiting for activity ..." << '\n';
-        activity = select(max_sd + 1 , &readfds , NULL , NULL , NULL);   
-       
-        if ((activity < 0) && (errno!=EINTR))   
+        while(TRUE)   
         {   
-            printf("select error");   
-        }   
-             
-        // [5] If something happened on the master socket, then its an incoming connection  
-        if (FD_ISSET(master_socket, &readfds))   
-        {   
-            std::cout << "EVENT: ACCEPT_EVENT" << '\n';
-            if ((new_socket = accept(master_socket, (struct sockaddr *)&address, (socklen_t*)&addrlen))<0)   
+            // [1] clear the socket set  
+            FD_ZERO(&readfds);   
+        
+            // [2] add master socket to set  
+            FD_SET(master_socket, &readfds);   
+            max_sd = master_socket;
+
+            // [3] Set child file descriptors to FD_SET (every iteration)
+            for(auto s : m_loggingAcceptor->get_EventHandlerVec())
+            {
+                sd = s->getClientId();
+
+                // if valid socket descriptor then add to read list  
+                if(sd > 0)   
+                {
+                    FD_SET(sd , &readfds);
+                } 
+                    
+                // Highest file descriptor number, need it for the select function  
+                // Changing master socketId all the time
+                if(sd > max_sd)
+                {
+                    max_sd = sd; 
+                } 
+            }
+        
+            // [4] Wait for an activity on one of the sockets, timeout is NULL, so wait indefinitely
+            std::cout << "Waiting for activity ..." << '\n';
+            activity = select(max_sd + 1 , &readfds , NULL , NULL , NULL);   
+        
+            if ((activity < 0) && (errno!=EINTR))   
             {   
-                perror("accept");   
-                exit(EXIT_FAILURE);   
+                printf("select error");   
+            }   
+                
+            // [5] If something happened on the master socket, then its an incoming connection  
+            if (FD_ISSET(master_socket, &readfds))   
+            {   
+                std::cout << "EVENT: ACCEPT_EVENT" << '\n';
+                if ((new_socket = accept(master_socket, (struct sockaddr *)&address, (socklen_t*)&addrlen))<0)   
+                {   
+                    perror("accept");   
+                    exit(EXIT_FAILURE);   
+                }   
+
+                m_loggingAcceptor->register_EventHandler(new_socket);
+                // Create handler for each client (client <-> handler)
+                // EventHandler* clientHandler = new EventHandler(new_socket);
+                
+                // Inform user of socket number - used in send and receive commands  
+                printf("New connection , socket fd is %d , ip is : %s , port : %d\n", new_socket, inet_ntoa(address.sin_addr) , ntohs(address.sin_port));
+                // clientHandler->toString();
+
+                // Send new connection greeting message 
+                if(send(new_socket, welcomeMessage, strlen(welcomeMessage), 0) != strlen(welcomeMessage) )   
+                {   
+                    perror("send");   
+                }
+
+                // Add hendler in vec of handlers
+                // m_vecOfEventHandler.push_back(clientHandler);
             }   
 
-            // Create handler for each client (client <-> handler)
-            EventHandler* clientHandler = new EventHandler(new_socket);
-             
-            // Inform user of socket number - used in send and receive commands  
-            printf("New connection , socket fd is %d , ip is : %s , port : %d\n", new_socket, inet_ntoa(address.sin_addr) , ntohs(address.sin_port));
-            clientHandler->toString();
+            // Close event or Read event
+            for(auto s : m_loggingAcceptor->get_EventHandlerVec())
+            {
+                sd = s->getClientId();
 
-            // Send new connection greeting message 
-            if(send(clientHandler->getClientId(), welcomeMessage, strlen(welcomeMessage), 0) != strlen(welcomeMessage) )   
-            {   
-                perror("send");   
-            }
-
-            // Add hendler in vec of handlers
-            m_vecOfEventHandler.push_back(clientHandler);
-        }   
-
-        // Close event or Read event
-        for(auto s : m_vecOfEventHandler)
-        {
-            sd = s->getClientId();
-
-            if (FD_ISSET(sd , &readfds))   
-            {   
-                //Check if it was for closing, and also read the incoming message  
-                if ((valread = read(sd , buffer, 1024)) <= 0)   
+                if (FD_ISSET(sd , &readfds))   
                 {   
-                    std::cout << "EVENT: CLOSE_EVENT" << '\n';
+                    //Check if it was for closing, and also read the incoming message  
+                    if ((valread = read(sd , buffer, 1024)) <= 0)   
+                    {   
+                        std::cout << "EVENT: CLOSE_EVENT" << '\n';
 
-                    // Somebody disconnected , get his details and print  
-                    getpeername(sd , (struct sockaddr*)&address, (socklen_t*)&addrlen);   
-                    printf("Host disconnected , ip %s , port %d \n", inet_ntoa(address.sin_addr) , ntohs(address.sin_port));   
+                        // Somebody disconnected , get his details and print  
+                        getpeername(sd , (struct sockaddr*)&address, (socklen_t*)&addrlen);   
+                        printf("Host disconnected , ip %s , port %d \n", inet_ntoa(address.sin_addr) , ntohs(address.sin_port));   
 
-                    // NEW: Remove EventHandler (client) from vector
-                    for(auto it = m_vecOfEventHandler.begin(); it != m_vecOfEventHandler.end();) 
-                    {
-                        if( (*it)->getClientId() == sd ) 
-                        { 
-                            delete *it; 
-                            std::cout << "Deleting *it: " << *it << '\n'; 
-                            // Delete   
-                            it = m_vecOfEventHandler.erase(it);
-                        }
-                        else  
-                        { 
-                            ++it;  
-                        } 
-                    }     
-                }                    
-                // Echo back the message that came in  
-                else 
-                {  
-                    std::cout << "EVENT: READ_EVENT" << '\n'; 
+                        // NEW: Remove EventHandler (client) from vector - move this to Logging_Acceptor
+                        for(auto it = m_loggingAcceptor->get_EventHandlerVec().begin(); it != m_loggingAcceptor->get_EventHandlerVec().end();) 
+                        {
+                            if( (*it)->getClientId() == sd ) 
+                            { 
+                                delete *it; 
+                                std::cout << "Deleting *it: " << *it << '\n'; 
+                                // Delete   
+                                it = m_loggingAcceptor->get_EventHandlerVec().erase(it);
+                            }
+                            else  
+                            { 
+                                ++it;  
+                            } 
+                        }     
+                    }                    
+                    // Echo back the message that came in  
+                    else 
+                    {  
+                        std::cout << "EVENT: READ_EVENT" << '\n'; 
 
-                    // Message from client <-> handler using clientID
-                    std::string sendMsg = s->send();
-                    send(sd , sendMsg.c_str() , strlen(sendMsg.c_str()) , 0 ); 
-                }   
-            } 
+                        // Message from client <-> handler using clientID
+                        // TODO - Move this to Logging Acceptor
+                        std::string sendMsg = s->send();
+                        send(sd, sendMsg.c_str() , strlen(sendMsg.c_str()) , 0 ); 
+                    }   
+                } 
+            }
         }
-    }	
-}
+    }
+
+    void register_Logging_Acceptor(Logging_Acceptor* loggingAcceptor)
+    {
+        m_loggingAcceptor = loggingAcceptor;
+    }
 
 private:	
 	// Singleton Factory - Private Constructor
@@ -280,7 +253,9 @@ private:
     // Welcome message  
     char* welcomeMessage = "ECHO from multi server";  
 
+    Logging_Acceptor* m_loggingAcceptor;
+
     // TODO: remove this
-    std::vector<EventHandler*> m_vecOfEventHandler;
+    // std::vector<EventHandler*> m_vecOfEventHandler;
 };
 } // End of namespace

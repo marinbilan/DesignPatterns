@@ -101,9 +101,11 @@ int main(int argc, char* argv[])
     }
     else if (!strcmp(argv[1], "server")) 
     {
-        Reactor::Event_Handler_If* loggingAcceptor = new Reactor::Logging_Acceptor(0);
-        std::string event("ACCEPT_EVENT");
-        loggingAcceptor->handle_event(event);
+        // Reactor::Event_Handler_If* loggingAcceptor = new Reactor::Logging_Acceptor(0);
+        // std::string event("ACCEPT_EVENT");
+        // loggingAcceptor->handle_event(event);
+
+		Reactor::Logging_Acceptor la(0);
 
         Reactor::Initiation_Dispatcher::getInstance().init();
         Reactor::Initiation_Dispatcher::getInstance().handle_events();

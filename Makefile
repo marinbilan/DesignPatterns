@@ -34,6 +34,7 @@ common_sources = main.cpp \
                  sw/Lows/src/Driver0.cpp \
                  sw/EffectiveModernCpp/src/Chapter5.cc \
                  sw/Reactor/src/Logging_Acceptor.cc \
+				 sw/Reactor/src/Event_Handler.cc \
 
 all:
 	g++ $(CXXFLAGS) \
