@@ -7,7 +7,7 @@ namespace Reactor
 class Event_Handler : public  Event_Handler_If
 {
 public:
-	Event_Handler(int id);
+	Event_Handler(int clientId);
 
     ~Event_Handler();
 
@@ -20,6 +20,6 @@ public:
     void toString();
 
 private:	
-int m_id;
+int m_clientId;
 };
 } // End of namespace

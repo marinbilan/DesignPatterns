@@ -1,6 +1,6 @@
 #pragma once
 #include "Event_Handler_If.h"
-
+#include "Event_Handler.h"
 
 // TODO: Remove this
 class EventHandler
@@ -48,18 +48,25 @@ public:
 
     ~Logging_Acceptor();
 
-    int handle_event(const std::string& eventType);
-
-    // TODO: Add Event Handler in separate class
+    // EVENT: ACCEPT_EVENT (adding handler)
     void register_EventHandler(int clientId);
 
-    std::vector<EventHandler*>& get_EventHandlerVec();
+    // EVENT: CLOSE_EVENT (removeing handler)
+    void remove_EventHandler(int socketDescriptorId);
+ 
+    // std::vector<EventHandler*>& get_EventHandlerVec();
+    std::vector<Event_Handler*>& get_Event_HandlerVec();
 
-    void get_EventHandler(int clientId);
+    // EVENT: read msg
+    int handle_event(const std::string& eventType);
+
+    void processMessage(const int clientId, const std::string& incomingMessage);
+
 
 private:	
 int m_id;
 
 std::vector<EventHandler*> m_vecOfEventHandler;
+std::vector<Event_Handler*> m_vecOfEvent_Handler;
 };
 } // End of namespace
